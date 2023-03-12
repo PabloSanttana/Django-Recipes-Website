@@ -208,8 +208,8 @@ h6 {
     margin-right: 0.7rem;
 }
 
-.recipe-author-item:not(:first-child) {
-    margin-left: 1.5rem;
+.recipe-author-item{
+    margin-right: 1rem;
 }
 
 .recipe-author-item a {

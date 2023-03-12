@@ -1,3 +1,4 @@
+link-document : https://docs.djangoproject.com/pt-br/3.2/ref/models/querysets/
 python manage.py shell
 
     CTRL + L => limpa o prompt 

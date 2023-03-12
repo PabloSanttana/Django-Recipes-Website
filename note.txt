@@ -1,0 +1,41 @@
+criando projeto python 
+
+    python -m venv venv => criando ambiente 
+
+    source venv/bin/activate => ativar ambiente 
+
+    pip install django
+
+    pip install pytest
+
+    django-admin startproject project .  => criar app django
+
+    python manage.py startapp name_app  => criar os app no projeto
+
+ 
+
+configuração settings.py
+
+    INSTALLED_APPS => adicionar seus apps criando
+
+    TEMPLATES = [
+        DIRS : [
+            BASE_DIR / 'nome_pastar'  => configuração de novos templates fora dos apps
+        ]
+    ]
+    
+    STATICFILES_DIRS = [
+        BASE_DIR / "base_static" => carregar arquivos estáticos de outros locais
+    ]
+
+    STATIC_ROOT = BASE_DIR / "static" => colocar todos os arquivos estáticos nessa pasta.
+                                      => commd  python manage.py collectstatic
+
+    # upload de imgs
+    MEDIA_URL = '/media/'
+    MEDIA_ROOT = BASE_DIR / 'media/'
+
+
+
+
+

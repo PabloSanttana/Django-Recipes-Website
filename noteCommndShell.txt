@@ -1,0 +1,67 @@
+python manage.py shell
+
+    CTRL + L => limpa o prompt 
+
+importando os models 
+
+    commd => from app.models import tables, tables
+    ex: Commad => from recipes.models import Recipe, Category
+
+buscar todos os elementos
+
+    Commad => variável = Table.objects.all()
+    ex: Commad => categories = Category.objects.all()
+
+ordenar elementos
+
+    Commad => variável.order_by('id') ou ('-id')
+    ex: Commad => categories.order_by('id') ou ('-id')
+    ex: Commad => categories.order_by('name') ou ('-name')
+    ex: Commad => categories.order_by('id','name') ou ('-id','-name')
+
+for suando prompt
+
+    recipes = Recipe.objects.all()
+    for recipe in recipes: print(recipe.id,recipe.title)
+    for recipe in recipes.order_by('-id'): print(recipe.id,recipe.title)
+
+buscando uma recipe
+
+    recipe = Recipe.objects.first()
+
+visualizar  os campos de um modelo
+
+    recipe._meta.get_fields()
+    recipe._meta.get_fields()[0].name
+
+visualizar valor do campos de um modelo
+    getattr(recipe,'id') ou recipe.id
+
+create novo elemento sem dependências de chave estrangeiras
+
+    new_category = Category()
+    new_category.name = "Churrasco"
+    new_category.save()
+
+outro modo de criar via objects.create 
+
+    new_category = Category.objects.create(name='Frango')
+
+fazer busca no banco de dados
+
+    category = Category.objects.get(id=10) => retorna um elemento, pode levantar erros 
+
+    category.name = 'Fazer'
+    category.save()  => update 
+
+fazer filter no banco de dados
+
+    Category.objects.filter(id=10)
+
+delete elemento
+
+    category = Category.objects.filter(id=5) => retorna um querySet, não levanta erro
+    category.first().delete() => update
+        ou
+    category = Category.objects.filter(id=5).first() => retorna um querySet, não levanta erro
+    category.delete() => update

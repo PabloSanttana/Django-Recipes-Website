@@ -313,3 +313,23 @@ h6 {
     justify-content: space-between
 }
 
+.recipes-not-found-home-title{
+    text-align: center;
+    margin-bottom: calc( 100vh - 35rem);
+    line-height: 3rem;
+}
+.recipe-container-preparation_step h1,
+.recipe-container-preparation_step h2,
+.recipe-container-preparation_step h3,
+.recipe-container-preparation_step h4,
+.recipe-container-preparation_step h5,
+.recipe-container-preparation_step h6,
+.recipe-container-preparation_step p,
+
+.recipe-container-preparation_step li{
+    margin:  2rem 0px;
+}
+.recipe-container-preparation_step ol,
+.recipe-container-preparation_step ul{
+    margin: 2rem 3rem ;
+}

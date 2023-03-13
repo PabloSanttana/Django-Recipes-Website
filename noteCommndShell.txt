@@ -66,3 +66,15 @@ delete elemento
         ou
     category = Category.objects.filter(id=5).first() => retorna um querySet, não levanta erro
     category.delete() => update
+
+
+cadatrar usuário 
+
+    from django.contrib.auth.models import User
+    user = user.objects.create_user(
+        first_name='Maria', 
+        last_name='Rafaela', 
+        email='maria@gmail.com',
+        username='mariarafaela', 
+        password='123456'
+    )

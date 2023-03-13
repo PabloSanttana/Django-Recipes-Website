@@ -1,0 +1,65 @@
+.vscode 
+    .setting.json {
+        
+            "cSpell.language": "pt,en",
+            "python.languageServer": "Pylance",
+            "python.testing.unittestEnabled": false, // ms-python.python
+            "python.testing.pytestEnabled": true,
+            "python.testing.pytestArgs": [], // -x to bail
+            "python.linting.flake8Enabled": true,
+            "python.linting.mypyEnabled": true,
+            "python.linting.pylintArgs": [
+                "--load-plugins=pylint_django",
+                "--errors-only"
+            ],
+            "python.formatting.autopep8Args": ["--indent-size=4"],
+            "python.defaultInterpreterPath": "venv/bin/python",
+            "[python]": {
+                "editor.defaultFormatter": "ms-python.python", // ms-python.python
+                "editor.tabSize": 4,
+                "editor.insertSpaces": true,
+                "editor.formatOnSave": true,
+                "editor.formatOnType": true,
+                "editor.codeActionsOnSave": {
+                "source.organizeImports": true
+                }
+            },
+    
+    }
+
+command => pip install pytest pytest-django
+
+arquivo de confuguração do pytest
+
+        raiz do projeto criar um arquivo pytest.ini
+
+                pytest.ini => 
+                    [pytest]
+                    DJANGO_SETTINGS_MODULE = NAME_PROJECT.settings
+                    python_files = test.py tests.py test_*.py tests_*.py *_test.py *_tests.py   => nomes de arquivos de teste
+                    addopts = 
+                        --doctest-modules
+                        --strict-markers     => fazer uma validação em cima dos marker
+
+                    markers =                => usando para marcar teste com sua category: 
+                        slow: Run tests that are slow
+                        fast: Run fast tests
+
+
+
+
+comando do pytest pelo terminal
+
+    command => pytest
+    command => pytest -rp                               # usando para exibir print dos test
+    command => pytest -k 'nome do test'                 # selecionar o teste
+
+    command => python manage.py test                    # rodar os teste com poucas informações  visuais
+    command => python manage.py test -k 'nome do test'  # selecionar o teste
+    
+
+
+configurar dados para teste
+
+    metodo def setUp    => roda antes do teste
+    

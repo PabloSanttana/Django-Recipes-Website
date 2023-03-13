@@ -39,3 +39,43 @@ configuração settings.py
 
 
 
+Tratando erros Not Found
+
+    if not recipes:
+        return HttpResponse(content="Not found", status=404)
+            ou
+        raise Http404("Not found")  => levantaria um erro
+
+
+
+Tratando erros usando shortcuts
+
+    from django.shortcuts import get_list_or_404   => para queryset, varios elementos
+    from django.shortcuts import get_object_or_404 => para um object
+
+
+    recipes = get_list_or_404(Recipe, filter....).order_by('-id')
+            ou
+     recipes = get_list_or_404(
+
+        Recipe.objects.filter(....).order_by('-id')
+        
+        )
+
+
+
+for template html 
+
+    {% for recipe  in recipes %} recipes.length > 0
+        code...
+	{% empty %} => recipes.length = 0
+        code...
+	{% endfor %}
+
+
+trocando linguagem do project e o timer Zone
+
+    file=>settings:
+        LANGUAGE_CODE = 'pt-br'
+
+        TIME_ZONE = 'America/Sao_Paulo'

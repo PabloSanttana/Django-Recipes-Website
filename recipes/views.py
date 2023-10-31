@@ -31,5 +31,6 @@ def recipes(request, id):
 
     return render(request, 'recipes/views/recipes_view.html', {
         "recipe": recipe,
-        "is_detail_page": True
+        "is_detail_page": True,
+        "title": f'{recipe.title} - Detail'
     })

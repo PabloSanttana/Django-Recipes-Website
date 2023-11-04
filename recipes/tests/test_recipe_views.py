@@ -3,10 +3,12 @@ from django.urls import resolve, reverse
 
 from recipes import views
 
+from .test_recipe_base import RecipeTestBase
+
 # Create your tests here.
 
 
-class RecipeViewHomeTest(TestCase):
+class RecipeViewHomeTest(RecipeTestBase):
     def test_recipe_home_view_is_correct(self):
         view = resolve(reverse('recipes:home'))
         self.assertIs(view.func, views.home)
@@ -24,6 +26,25 @@ class RecipeViewHomeTest(TestCase):
         content = response.content.decode('utf-8')
         text = "<h2 >Atualmente, não temos nenhuma receita publicada.</h2>"
         self.assertIn(text, content)
+
+    def test_recipe_home_template_loads_recipes(self):
+        # create recipes antes do template
+        create_recipe = self.make_recipe(author_data={
+            'first_name': 'Pablo'
+        })
+        response = self.client.get(reverse('recipes:home'))
+
+        recipes = response.context["recipes"]
+
+        # usando context
+        self.assertEqual(len(recipes), 1)
+        self.assertEqual(create_recipe.title, recipes[0].title)
+
+        # usando content
+        content = response.content.decode('utf-8')
+
+        self.assertIn(create_recipe.title, content)
+        self.assertIn('Pablo', content)
 
 
 class RecipeViewDetailTest(TestCase):

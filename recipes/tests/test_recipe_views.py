@@ -27,7 +27,7 @@ class RecipeViewHomeTest(RecipeTestBase):
         self.assertIn(text, content)
 
     def test_recipe_home_template_loads_recipes(self):
-        # create recipes antes do template
+        # criar receitas ante de chama a view
         create_recipe = self.make_recipe(author_data={
             'first_name': 'Pablo'
         })
@@ -41,9 +41,31 @@ class RecipeViewHomeTest(RecipeTestBase):
 
         # usando content
         content = response.content.decode('utf-8')
-
         self.assertIn(create_recipe.title, content)
         self.assertIn('Pablo', content)
+
+    def test_recipe_home_template_recipes_not_published(self):
+        """
+        Test if the home template correctly handles
+        recipes that are not published.
+        """
+
+        # Criar receitas antes de chamar a view
+        self.make_recipe(is_published=False)
+
+        # Chamar a view
+        response = self.client.get(reverse('recipes:home'))
+
+        recipes = response.context["recipes"]
+        # Verifica se a chave 'recipes' não está presente no contexto
+        self.assertEqual(len(recipes), 0)
+
+        # Verificar se o código de status é 200 (OK)
+        self.assertEqual(response.status_code, 200)
+
+        content = response.content.decode('utf-8')
+        text = "<h2 >Atualmente, não temos nenhuma receita publicada.</h2>"
+        self.assertIn(text, content)
 
 
 class RecipeViewDetailTest(RecipeTestBase):
@@ -77,6 +99,18 @@ class RecipeViewDetailTest(RecipeTestBase):
         self.assertIn(title, content)
         self.assertIn('sanatana', content)
 
+    def test_recipe_detail_template_recipe_not_published(self):
+        """
+        Test if the Detail template correctly handles
+        recipes that are not published.
+        """
+
+        self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse('recipes:details', kwargs={'id': 1})
+        )
+        self.assertEqual(response.status_code, 404)
+
 
 class RecipeViewCategoryTest(RecipeTestBase):
     def test_recipe_category_view_is_correct(self):
@@ -96,7 +130,8 @@ class RecipeViewCategoryTest(RecipeTestBase):
         title = "This is a category test"
         create_recipe = self.make_recipe(title=title)
         response = self.client.get(
-            reverse('recipes:category', kwargs={'category_id': 1})
+            reverse('recipes:category', kwargs={
+                    'category_id': create_recipe.category.id})
         )
 
         recipes = response.context["recipes"]
@@ -111,3 +146,16 @@ class RecipeViewCategoryTest(RecipeTestBase):
         self.assertIn(title, content)
         self.assertIn('sanatana', content)
         self.assertIn('carnes', content)
+
+    def test_recipe_category_template_recipes_not_published(self):
+        """
+        Test if the category template correctly handles
+        recipes that are not published.
+        """
+
+        recipe = self.make_recipe(is_published=False)
+        response = self.client.get(
+            reverse('recipes:category', kwargs={
+                    'category_id': recipe.category.id})
+        )
+        self.assertEqual(response.status_code, 404)

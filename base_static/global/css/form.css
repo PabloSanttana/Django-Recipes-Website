@@ -1,0 +1,56 @@
+#form-authors-register {
+    margin-top: 2rem
+}
+
+.form-content {
+    max-width: 64rem;
+    margin: 0 auto;
+    margin-bottom: var(--spacing-gutter-medium)
+}
+
+.form-content label,
+.form-content .help-text,
+.errorlist {
+    display: block;
+    margin: 0.5rem 0;
+    font-size: 1.4rem;
+    list-style: none;
+}
+
+.form-content .errorlist {
+    color: var(--color-error-dark);
+}
+
+.form-content input {
+    width: 100%;
+    padding: 1rem;
+    border: 1px solid var(--color-primary-dark);
+    border-radius: 0.4rem;
+}
+
+.form-content-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(25rem, 1fr));
+    gap: calc(var(--spacing-gutter-medium)/2) var(--spacing-gutter-medium);
+}
+
+.form-content button {
+    padding: 1rem 2rem;
+    border: none;
+    background: var(--color-primary-dark);
+    color: var(--color-white);
+    border-radius: 0.4rem;
+    transition: all 0.4s ease-in-out;
+    cursor: pointer;
+}
+
+.form-content button:hover {
+    background: var(--color-primary-hover);
+
+}
+
+@media only screen and (max-width: 500px) {
+    .form-content-grid {
+        grid-template-columns: 1fr;
+    }
+}

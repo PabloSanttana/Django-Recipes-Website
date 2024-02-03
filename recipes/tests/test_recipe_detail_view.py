@@ -12,7 +12,7 @@ class RecipeViewDetailTest(RecipeTestBase):
         view = resolve(
             reverse('recipes:details', kwargs={'id': 1})
         )
-        self.assertIs(view.func, views.recipes)
+        self.assertIs(view.func, views.recipe)
 
     def test_recipe_detail_view_status_code_404_Ok(self):
         response = self.client.get(

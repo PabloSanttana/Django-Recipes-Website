@@ -20,7 +20,7 @@ def strong_password(password):
 
 def add_attr(field, attr_name, attr_new_value):
     existing_attr = field.widget.attrs.get(attr_name, '')
-    field.widget.attrs[attr_name] = f'{existing_attr} {attr_new_value}'
+    field.widget.attrs[attr_name] = f'{existing_attr} {attr_new_value}'.strip()
 
 
 def add_placeholder(field, placeholder_value):
@@ -31,18 +31,17 @@ class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         add_attr(self.fields['username'], 'placeholder', 'Your username')
-        add_placeholder(self.fields['last_name'], 'Type your last name')
-        add_placeholder(self.fields['email'], 'Type your e-mail')
+        add_placeholder(self.fields['last_name'], 'Ex.: wick')
+        add_placeholder(self.fields['email'], 'Your e-mail')
         add_attr(self.fields['email'], "class", "form-control")
 
     # criando um novo campo ou sobrescrevendo
     password = forms.CharField(
-        max_length=100,
         required=True,
         label="Password",
         widget=forms.PasswordInput(attrs={
             'class': 'form-control',
-            'placeholder': 'Type your password here'
+            'placeholder': 'Your password'
         }),
         error_messages={
             'required': 'Password must not be empty',
@@ -56,7 +55,6 @@ class RegisterForm(forms.ModelForm):
 
     )
     password2 = forms.CharField(
-        max_length=100,
         required=True,
         label="Repeat password",
         widget=forms.PasswordInput(attrs={
@@ -104,7 +102,7 @@ class RegisterForm(forms.ModelForm):
         widgets = {
             'first_name': forms.TextInput(attrs={
                 'class': 'form-control',
-                'placeholder': 'Type your first name'
+                'placeholder': 'Ex.: John'
             }),
         }
 

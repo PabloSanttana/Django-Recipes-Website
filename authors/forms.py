@@ -31,11 +31,29 @@ class RegisterForm(forms.ModelForm):
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         add_attr(self.fields['username'], 'placeholder', 'Your username')
-        add_placeholder(self.fields['last_name'], 'Ex.: wick')
+        # add_placeholder(self.fields['last_name'], 'Ex.: wick')
         add_placeholder(self.fields['email'], 'Your e-mail')
         add_attr(self.fields['email'], "class", "form-control")
 
     # criando um novo campo ou sobrescrevendo
+    first_name = forms.CharField(
+        error_messages={'required': 'Write your first name'},
+        required=True,
+        label="First Name",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Ex.: John',
+            'class': 'form-control',
+        })
+    )
+    last_name = forms.CharField(
+        error_messages={'required': 'Write your last name'},
+        required=True,
+        label="Last Name",
+        widget=forms.TextInput(attrs={
+            'placeholder': 'Ex.: wick',
+            'class': 'form-control',
+        })
+    )
     password = forms.CharField(
         required=True,
         label="Password",
@@ -66,6 +84,16 @@ class RegisterForm(forms.ModelForm):
         }
     )
 
+    email = forms.EmailField(
+        required=True,
+        error_messages={
+            'required': 'Email is required'
+        },
+        label='Email',
+        help_text='The e-mail must be a valid email address'
+
+    )
+
     class Meta:
         model = User
         fields = [
@@ -81,7 +109,6 @@ class RegisterForm(forms.ModelForm):
             'first_name': 'First Name',
             'last_name': 'Last Name',
             'email': 'Email',
-
         }
 
         help_texts = {
@@ -99,12 +126,13 @@ class RegisterForm(forms.ModelForm):
 
         # sobreescrever um input
         # uma forma
-        widgets = {
-            'first_name': forms.TextInput(attrs={
-                'class': 'form-control',
-                'placeholder': 'Ex.: John'
-            }),
-        }
+
+        # widgets = {
+        #     'first_name': forms.TextInput(attrs={
+        #         'class': 'form-control',
+        #         'placeholder': 'Ex.: John'
+        #     }),
+        # }
 
     # Fazendo validacao especifica no password
 

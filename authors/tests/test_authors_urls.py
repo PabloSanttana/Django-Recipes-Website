@@ -9,4 +9,16 @@ class AuthorsUrlsTestCase(TestCase):
 
     def test_authors_create_is_corretc(self):
         url = reverse('authors:create')
-        self.assertEqual(url, '/authors/register/create')
+        self.assertEqual(url, '/authors/register/create/')
+
+    def test_authors_login_is_corretc(self):
+        url = reverse('authors:login')
+        self.assertEqual(url, '/authors/login/')
+
+    def test_authors_login_create_is_corretc(self):
+        url = reverse('authors:login_create')
+        self.assertEqual(url, '/authors/login/create/')
+
+    def test_authors_logout_is_corretc(self):
+        url = reverse('authors:logout')
+        self.assertEqual(url, '/authors/logout/')

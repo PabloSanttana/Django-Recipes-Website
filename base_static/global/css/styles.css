@@ -73,3 +73,53 @@ body {
 .text-center {
     text-align: center
 }
+
+.main-header-container {
+    background-color: var(--color-primary-dark)
+}
+
+.container {
+    margin: 0 auto;
+    max-width: 144rem;
+    padding: var(--spacing-gutter-medium);
+}
+
+
+
+.main-logo {
+    text-decoration: none;
+    color: var(--color-white);
+    font-size: 4rem;
+    display: flex;
+    flex-flow: row nowrap;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: 0 auto;
+
+}
+
+.main-logo i {
+    margin-right: 2rem;
+}
+
+
+.main-content-container {
+    min-height: calc(100vh - 29.3rem);
+}
+
+.main-content {
+    padding-top: 0px;
+}
+
+.main-content-list {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(36rem, 1fr));
+    gap: var(--spacing-gutter-large);
+}
+
+@media only screen and (max-width: 500px) {
+    .main-content-list {
+        grid-template-columns: 1fr;
+    }
+}

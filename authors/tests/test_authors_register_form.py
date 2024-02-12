@@ -24,10 +24,10 @@ class AuthorRegistrationFormUnitTest(TestCase):
         self.assertEqual(placeholder_value, placeholder)
 
     # fazendo validacoes de help_text
-
+    # flake8: noqa E501
     @parameterized.expand([
-        ('username', ('Required. 150 characters or fewer. Letters, numbers,'
-                      ' and @/./+/-/_ only.')),
+        ('username', ('Username must have letters. number or one of those @/./+/-/_. '
+                      'The length should be between 4 and 150 characters.')),
         ('email', 'The e-mail must be a valid email address'),
         ('password', ('Password must be at least one uppercase letter, '
                       'one lowercase letter and one number. The length should'
@@ -113,12 +113,41 @@ class AuthorRegistrationFormIntegrationTestCase(DjangoTestCase):
         self.form_data['username'] = "A" * 160
         post_url = reverse('authors:create')
         response = self.client.post(post_url, data=self.form_data, follow=True)
-        self.assertIn(('Certifique-se de que o valor tenha no máximo 150'
-                       ' caracteres (ele possui 160).'),
+        msg = 'Make sure the value has a maximum of 150 characters'
+        self.assertIn(msg,
                       response.context['form'].errors.get('username'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+    def test_username_field_min_length_should_be_4(self):
+        self.form_data['username'] = "AAA"
+        post_url = reverse('authors:create')
+        response = self.client.post(post_url, data=self.form_data, follow=True)
+        msg = 'Make sure the value has at least 4 characters'
+        self.assertIn(msg,
+                      response.context['form'].errors.get('username'))
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+    def test_form_send_get_request_to_create_view_returns_404(self):
+        post_url = reverse('authors:create')
+        response = self.client.get(post_url, data=self.form_data, follow=True)
+        self.assertEqual(404, response.status_code)
 
     def test_form_is_valid(self):
         post_url = reverse('authors:create')
         response = self.client.post(post_url, data=self.form_data, follow=True)
         msg = "Your user is created successfully, please log in."
+        self.assertIn(msg, response.content.decode('utf-8'))
+
+    def test_email_field_must_be_unique(self):
+        post_url = reverse('authors:create')
+        self.client.post(post_url, data=self.form_data, follow=True)
+
+        self.form_data['username'] = 'santana'
+
+        response = self.client.post(post_url, data=self.form_data, follow=True)
+
+        msg = 'User e-mail is already in use'
+        self.assertIn(msg,
+                      response.context['form'].errors.get('email'))
+
         self.assertIn(msg, response.content.decode('utf-8'))

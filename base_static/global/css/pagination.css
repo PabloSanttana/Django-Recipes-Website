@@ -1,0 +1,23 @@
+/* paginacao */
+.pagination-content {
+    display: flex;
+    flex-wrap: row wrap;
+    gap: 1rem 0.7rem;
+    justify-content: center;
+}
+
+.pagination .page-item {
+    background: var(--color-gray-3);
+    padding: 0.5rem 1rem;
+    border-radius: 0.2em;
+}
+
+.pagination .page-link {
+    text-decoration: none;
+    background: var(--color-primary);
+    color: var(--color-white);
+}
+
+.pagination .page-link.current-page {
+    background: var(--color-primary-dark)
+}

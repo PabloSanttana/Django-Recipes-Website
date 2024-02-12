@@ -87,10 +87,27 @@ class RegisterForm(forms.ModelForm):
     email = forms.EmailField(
         required=True,
         error_messages={
-            'required': 'Email is required'
+            'required': 'Email is required',
+
         },
         label='Email',
         help_text='The e-mail must be a valid email address'
+
+    )
+
+    username = forms.CharField(
+        label='Username',
+        # flake8: noqa E501
+        help_text=('Username must have letters. number or one of those @/./+/-/_. '
+                   'The length should be between 4 and 150 characters.'),
+        error_messages={
+            'required': 'This field must not be empty.',
+            'invalid': 'This field is invalid.',
+            'min_length': 'Make sure the value has at least 4 characters',
+            'max_length': 'Make sure the value has a maximum of 150 characters'
+        },
+        min_length=4,
+        max_length=150
 
     )
 
@@ -104,25 +121,23 @@ class RegisterForm(forms.ModelForm):
             'password'
         ]
 
-        labels = {
-            'username': 'Username',
-            'first_name': 'First Name',
-            'last_name': 'Last Name',
-            'email': 'Email',
-        }
+        # labels = {
+        #     'username': 'Username',
 
-        help_texts = {
-            'email': 'The e-mail must be a valid email address',
-            'username': ('Required. 150 characters or fewer. Letters, numbers,'
-                         ' and @/./+/-/_ only.'),
-        }
+        # }
 
-        error_messages = {
-            'username': {
-                'required': 'This field must not be empty.',
-                'invalid': 'This field is invalid.'
-            }
-        }
+        # help_texts = {
+
+        #     'username': ('Required. 150 characters or fewer. Letters,'
+        # 'numbers,' ' and @/./+/-/_ only.'),
+        # }
+
+        # error_messages = {
+        #     'username': {
+        #         'required': 'This field must not be empty.',
+        #         'invalid': 'This field is invalid.'
+        #     }
+        # }
 
         # sobreescrever um input
         # uma forma
@@ -135,6 +150,18 @@ class RegisterForm(forms.ModelForm):
         # }
 
     # Fazendo validacao especifica no password
+
+    def clean_email(self):
+        email = self.cleaned_data.get('email', '')
+        exists = User.objects.filter(email=email).exists()
+
+        if exists:
+            raise ValidationError(
+                'User e-mail is already in use',
+                code='invalid',
+            )
+
+        return email
 
     def clean_password(self):
         data = self.cleaned_data.get('password')

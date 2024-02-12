@@ -1,0 +1,19 @@
+{% extends "global/base.html" %}
+
+{% block title %}Login{% endblock title %}
+
+{% block content %}
+	<div class="main-content container">
+		<h2 class="text-center">Login</h2>
+		{% if request.user.is_authenticated %}
+			<div>
+				<p class="text-center">Your are logged in with {{request.user.username}}.</p>
+				<div class="text-center"> <span>Please to</span> {% include "authors/partials/logout.html" %}</div>
+			</div>
+		{% endif %}
+		
+		{% include "global/partials/form.html" %}
+
+	</div>
+{% endblock content %}
+		

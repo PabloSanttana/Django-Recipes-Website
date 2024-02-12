@@ -151,3 +151,21 @@ class AuthorRegistrationFormIntegrationTestCase(DjangoTestCase):
                       response.context['form'].errors.get('email'))
 
         self.assertIn(msg, response.content.decode('utf-8'))
+
+    # fazendo o teste de login do uusuario
+
+    def test_author_created_can_login(self):
+
+        post_url = reverse('authors:create')
+
+        self.form_data.update({
+            'username': 'santana',
+            'password': 'ABCd123456',
+            'password2': 'ABCd123456'
+        })
+        self.client.post(post_url, data=self.form_data, follow=True)
+
+        is_authentication = self.client.login(
+            username='santana', password='ABCd123456')
+
+        self.assertTrue(is_authentication)

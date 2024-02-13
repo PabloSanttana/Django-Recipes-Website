@@ -15,7 +15,8 @@ def register_view(request):
 
     return render(request, 'authors/views/register.html', {
         'form': form,
-        'form_action': reverse('authors:create')
+        'form_action': reverse('authors:create'),
+        'form_id': 'register_user'
     })
 
 

@@ -1,10 +1,10 @@
 
 import pytest
+from django.urls import reverse
 from parameterized import parameterized
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
 
-from .base import AuthorsBaseFunctionalTest
+from .test_base import AuthorsBaseFunctionalTest
 
 
 @pytest.mark.functional_test
@@ -34,7 +34,7 @@ class AuthorsRegisterFunctionalTest(AuthorsBaseFunctionalTest):
         Test error messages for missing or invalid input in each form field.
         """
         # User opens the browser on the registration form
-        self.browser.get(self.live_server_url + '/authors/register/')
+        self.browser.get(self.live_server_url + reverse('authors:register'))
 
         # Select the form
         form = self.get_form()
@@ -62,7 +62,7 @@ class AuthorsRegisterFunctionalTest(AuthorsBaseFunctionalTest):
 
     def test_authors_register_sucess(self):
         # Usuario abre o navegador
-        self.browser.get(self.live_server_url + '/authors/register/')
+        self.browser.get(self.live_server_url + reverse('authors:register'))
 
         # usuario seleciona o formulario
         form = self.get_form()

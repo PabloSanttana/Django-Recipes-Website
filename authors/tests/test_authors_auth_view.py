@@ -1,3 +1,4 @@
+from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
 
@@ -7,26 +8,19 @@ from authors import views
 class AuthorsViewAuthTestCase(TestCase):
     def make_create_author(self):
         # cria um usuario
-        form_data = {
-            'username': 'RafaelaDarc',
-            'first_name': 'Rafaela',
-            'last_name': 'Darc',
-            'email': 'RafaelaDarc@gmail.com',
-            'password': 'Ab123456789',
-            'password2': 'Ab123456789',
-        }
-        post_url = reverse('authors:create')
-        self.client.post(post_url, data=form_data, follow=True)
+        self.user_password = 'Ab123456789'
+        user = User.objects.create_user(
+            username='RafaelaDarc',
+            last_name='Darc',
+            first_name='Rafaela',
+            email='RafaelaDarc@gmail.com',
+            password=self.user_password)
+        return user
 
     def make_login_author(self):
-        self.make_create_author()
-        # login do usuario
-        url = reverse('authors:login_create')
-
-        self.client.post(url,  data={
-            'username': 'RafaelaDarc',
-            'password': 'Ab123456789',
-        }, follow=True)
+        user = self.make_create_author()
+        self.client.login(username=user.username, password=self.user_password)
+        return user
 
     def test_authors_login_view_is_correct(self):
         url = reverse('authors:login')
@@ -65,23 +59,28 @@ class AuthorsViewAuthTestCase(TestCase):
 
     def test_authors_login_create_success(self):
 
-        self.make_create_author()
+        user = self.make_create_author()
         # login do usuario
         url = reverse('authors:login_create')
 
         response = self.client.post(url,  data={
-            'username': 'RafaelaDarc',
-            'password': 'Ab123456789',
+            'username': user.username,
+            'password': self.user_password,
         }, follow=True)
 
         msg = 'Your are logged in.'
         self.assertIn(msg, response.content.decode('utf-8'))
 
     def test_authors_logout_view_unauthenticated_user(self):
+        # rotar para fazer o logout
         logout_url = reverse('authors:logout')
+        # rotar para fazer o login
         login_url = reverse('authors:login')
-        response = self.client.get(logout_url)
 
+        response = self.client.get(logout_url)
+        # usuario precisa esta logador para acessar essa page
+        # logo iria ser redirecionado para login, depois de logado volta
+        # para pagina que desejou acessar anteriormente
         self.assertRedirects(response, login_url + '?next=' + logout_url)
 
     def test_authors_logout_view_redirects_if_not_post(self):
@@ -109,12 +108,12 @@ class AuthorsViewAuthTestCase(TestCase):
         self.assertIn(msg, response.content.decode('utf-8'))
 
     def test_authors_logout_view_sucess(self):
-        self.make_login_author()
+        user = self.make_login_author()
 
         logout_url = reverse('authors:logout')
 
         response = self.client.post(
-            logout_url, data={'username': 'RafaelaDarc'}, follow=True)
+            logout_url, data={'username': user.username}, follow=True)
 
         msg = 'Your are logged in with RafaelaDarc.'
         self.assertNotIn(msg, response.content.decode('utf-8'))

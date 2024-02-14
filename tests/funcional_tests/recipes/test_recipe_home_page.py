@@ -5,7 +5,7 @@ import pytest
 from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 
-from .base import RecipeBaseFunctionalTest
+from .test_base import RecipeBaseFunctionalTest
 
 
 @pytest.mark.functional_test

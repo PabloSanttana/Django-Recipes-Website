@@ -46,7 +46,8 @@ def login_view(request):
     form = LoginForm()
     return render(request, 'authors/views/login.html', {
         'form': form,
-        'form_action': reverse('authors:login_create')
+        'form_action': reverse('authors:login_create'),
+        'form_id': 'login_user'
     })
 
 

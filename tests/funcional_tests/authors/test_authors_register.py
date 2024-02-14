@@ -53,23 +53,25 @@ class AuthorsRegisterFunctionalTest(AuthorsBaseFunctionalTest):
             field.send_keys(' ' * 20)
 
         # Submit the form
-        field.send_keys(Keys.ENTER)
+        form.submit()
 
         form = self.get_form()
+
+        # Check the error message for the field that was not filled correctly
+        self.assertIn(error_message, form.text)
 
     def test_authors_register_sucess(self):
         # Usuario abre o navegador
         self.browser.get(self.live_server_url + '/authors/register/')
 
         # usuario seleciona o formulario
-        form = self.browser.find_element(
-            By.ID, 'register_user')
+        form = self.get_form()
 
         # preenche o formulario com dados validos
         self.fill_form_data(form)
 
         # faz o envio do formulario
-        form.find_element(By.NAME, 'first_name').send_keys(Keys.ENTER)
+        form.submit()
 
         msg = 'Your user is created successfully, please log in.'
 

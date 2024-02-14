@@ -67,6 +67,7 @@ class RegisterForm(forms.ModelForm):
         required=True,
         error_messages={
             'required': 'Email is required',
+            'invalid': 'The e-mail must be valid.',
 
         },
         label='Email',

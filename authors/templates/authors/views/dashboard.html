@@ -18,9 +18,15 @@
 		{% endif %}
 		
 		<div class="authors-dashboard-container">
-			<div class="authors-dashboard-container-title">
-				<h3>Your Recipes</h3>
-				<span>total {{total_recipes}}</span>
+			<div class="container-info">
+				<div class="container-title">
+					<h3>Your Recipes</h3>
+					<span>total {{total_recipes}}</span>
+				</div>
+				<div>
+					<a href="{%url 'authors:dashboard_recipe_new'%}">New recipe</a>
+				</div>
+				
 			</div>
 			
 			<ul class="list-recipes">

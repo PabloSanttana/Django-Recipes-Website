@@ -119,29 +119,10 @@ def dashboard(request):
 
 
 @login_required(login_url='authors:login', redirect_field_name='next')
-def dashboard_recipe_register(request):
-    register_recipe_form_data = request.session.get(
-        'register_recipe_form_data', None)
-
-    form = RecipeForm(register_recipe_form_data)
-
-    return render(request, 'authors/views/dashboard_recipe_form.html', {
-        'form': form,
-        'form_action': reverse('authors:dashboard_recipe_create'),
-        'form_id': 'register_recipe',
-
-    })
-
-
-def dashboard_recipe_create(request):
-    if not request.POST:
-        raise Http404()
-
-    POST = request.POST
-    request.session['register_recipe_form_data'] = POST
+def dashboard_recipe_new(request):
 
     form = RecipeForm(
-        POST,
+        request.POST or None,
         files=request.FILES or None,
     )
 
@@ -153,11 +134,13 @@ def dashboard_recipe_create(request):
         recipe.save()
         messages.success(request, 'Recipe created sucess')
 
-        del (request.session['register_recipe_form_data'])
-
         return redirect('authors:dashboard')
 
-    return redirect('authors:dashboard_recipe_register')
+    return render(request, 'authors/views/dashboard_recipe_form.html', {
+        'form': form,
+        'form_id': 'recipe_new',
+        'form_action': reverse('authors:dashboard_recipe_new'),
+    })
 
 
 @login_required(login_url='authors:login', redirect_field_name='next')

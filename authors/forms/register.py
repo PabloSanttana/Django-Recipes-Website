@@ -173,3 +173,5 @@ class RegisterForm(forms.ModelForm):
                 }
 
             )
+
+        return cleaned_data

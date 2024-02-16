@@ -23,3 +23,13 @@ def add_attr(field, attr_name, attr_new_value):
 
 def add_placeholder(field, placeholder_value):
     add_attr(field, 'placeholder', placeholder_value)
+
+
+def is_positive_number(value):
+    try:
+        number_string = float(value)
+
+    except ValueError:
+        return False
+
+    return number_string > 0

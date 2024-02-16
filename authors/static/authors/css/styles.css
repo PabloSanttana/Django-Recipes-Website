@@ -8,12 +8,18 @@
     color: var(--color-primary);
 }
 
-.authors-dashboard-container-title {
+.authors-dashboard-container .container-info {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.authors-dashboard-container .container-info .container-title {
     display: flex;
     align-items: baseline;
 }
 
-.authors-dashboard-container-title span {
+.authors-dashboard-container .container-info .container-title span {
     margin-left: 1rem;
     color: var(--color-gray-4);
     font-size: 1.5rem;

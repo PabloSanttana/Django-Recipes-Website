@@ -43,6 +43,9 @@ def create_view(request):
 
 
 def login_view(request):
+    if request.user.is_authenticated:
+        return redirect('authors:dashboard')
+
     form = LoginForm()
     return render(request, 'authors/views/login.html', {
         'form': form,
@@ -71,6 +74,8 @@ def login_create(request):
                 request, "Your are logged in.")
             login(request, authenticated_user)
 
+            return redirect('authors:dashboard')
+
         else:
             messages.error(request, 'Invalid credentials')
 
@@ -91,3 +96,8 @@ def logout_view(request):
 
     logout(request)
     return redirect('authors:login')
+
+
+@login_required(login_url='authors:login', redirect_field_name='next')
+def dashboard(request):
+    return render(request, 'authors/views/dashboard.html')

@@ -5,6 +5,7 @@
 	<link rel="stylesheet" href="{% static 'authors/css/styles.css' %}">
 {% endblock head %}
 
+
 {% block title %}Dashboard ({{user}}){% endblock title %}
 
 {% block content %}
@@ -40,10 +41,13 @@
 					<div class="list-item-colmun">
 						<span>DATA</span>
 					</div>
+
+					<div class="list-item-colmun">
+						<span>Actions</span>
+					</div>
 				</li>
 				{% for recipe in recipes  %}
 					<li >
-						
 						<div class="list-item-colmun">
 							<strong>#{{recipe.id}}</strong>
 						</div>
@@ -56,8 +60,14 @@
 								{{ recipe.created_at|date:"d/m/Y" }} ás {{ recipe.created_at|time:"H:i" }}
 							</span>
 						</div>
+						<div class="list-item-colmun">
+							<form id="form_recipe_delete" action="{% url 'authors:dashboard_recipe_delete'  %}" method="post" onsubmit="return validateForm_recipe_delete()">
+								{% csrf_token %}
+								<input type="hidden" name="id" value="{{recipe.id}}" />
+								<button type="submit" class="btn btn-primary"><i class="fas fa-trash-alt fa-lg" style="color: #ff0000;"></i></button>
+							</form>
+						</div>
 
-						
 					</li>
 				{%empty%}
 					<li>
@@ -68,4 +78,9 @@
 		</div>
 	</div>
 {% endblock content %}
+
+
+{% block scripts %}
+	<script type="text/javascript" src="{% static 'authors/js/app.js' %}"></script>
+{% endblock scripts %}
 		

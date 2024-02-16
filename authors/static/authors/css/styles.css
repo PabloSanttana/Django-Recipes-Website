@@ -70,6 +70,11 @@
     width: 12rem;
 }
 
+.authors-dashboard-container ul.list-recipes li .list-item-colmun:last-child {
+    width: 6rem;
+
+}
+
 .authors-dashboard-container ul.list-recipes li a {
     text-decoration: none;
     cursor: pointer;
@@ -78,4 +83,11 @@
 
 .authors-dashboard-container form .span-2 {
     grid-column: span 2;
+}
+
+#form_recipe_delete button {
+    border: none;
+    cursor: pointer;
+    width: 6rem;
+    background: transparent;
 }

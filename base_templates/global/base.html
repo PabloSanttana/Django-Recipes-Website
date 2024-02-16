@@ -7,10 +7,6 @@
 
 	<title>{% block title %}{% endblock title %} | Recipes</title>
 
-	{% block scripts %}
-	
-	{% endblock scripts %}
-	
 </head>
 <body>
     {% include "recipes/partials/header.html"%}
@@ -24,6 +20,12 @@
     </div>
 
     {% include "global/partials/footer.html" %}
+
+
+
+	{% block scripts %}
+	
+	{% endblock scripts %}
 </body>
 
 </html>

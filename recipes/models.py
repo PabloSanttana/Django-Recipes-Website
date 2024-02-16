@@ -1,5 +1,8 @@
+import uuid
+
 from django.contrib.auth.models import User
 from django.db import models
+from django.utils.text import slugify
 
 # Create your models here.
 
@@ -34,3 +37,21 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+    def save(self, *args, **kwargs):
+        # Se o objeto já existe e o título foi alterado
+        if self.pk:
+            original = Recipe.objects.get(pk=self.pk)
+            if self.title != original.title:
+                self._generate_unique_slug()
+        # Se for um novo objeto e não tiver slug, gera um novo
+        elif not self.slug:
+            self._generate_unique_slug()
+        # Chama o método save() da classe pai para salvar o objeto
+        super().save(*args, **kwargs)
+
+    def _generate_unique_slug(self):
+        base_slug = slugify(self.title)
+        # Obtemos os primeiros 8 caracteres do UUID
+        unique_id = str(uuid.uuid4())[:16]
+        self.slug = f"{base_slug}-{unique_id}"

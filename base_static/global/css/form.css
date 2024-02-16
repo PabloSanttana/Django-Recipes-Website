@@ -17,7 +17,9 @@
     color: var(--color-error-dark);
 }
 
-.form-content input {
+.form-content input,
+.form-content select,
+.form-content textarea {
     width: 100%;
     padding: 1rem;
     border: 1px solid var(--color-primary-dark);

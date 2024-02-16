@@ -23,7 +23,7 @@
 				<span>total {{total_recipes}}</span>
 			</div>
 			
-			<ul>
+			<ul class="list-recipes">
 				<li>
 					<div class="list-item-colmun">
 						<span>ID</span>
@@ -42,7 +42,7 @@
 							<strong>#{{recipe.id}}</strong>
 						</div>
 						<div class="list-item-colmun">
-							<a href="">{{recipe.title}}</a> 
+							<a href="{% url "authors:dashboard_recipe_edit" recipe.id %}">{{recipe.title}}</a> 
 						</div>
 						<div class="list-item-colmun">
 							<span class="recipe-author-item">

@@ -5,6 +5,8 @@ from django.shortcuts import Http404, redirect, render
 from django.urls import reverse
 
 from authors.forms import LoginForm, RegisterForm
+from recipes.models import Recipe
+from utils.pagination import make_pagination
 
 # Create your views here.
 
@@ -100,4 +102,17 @@ def logout_view(request):
 
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard(request):
-    return render(request, 'authors/views/dashboard.html')
+    recipes = Recipe.objects.filter(
+        is_published=False,
+        author=request.user
+    ).order_by('-id')
+
+    page_obj, pagination_range = make_pagination(request, recipes, 10)
+    # Contar o número total de receitas não publicadas
+    total_recipes = recipes.count()
+
+    return render(request, 'authors/views/dashboard.html', {
+        'recipes': page_obj,
+        'total_recipes': total_recipes,
+        'pagination_range': pagination_range
+    })

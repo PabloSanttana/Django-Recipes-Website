@@ -1,4 +1,9 @@
 {% extends "global/base.html" %}
+{% load static %}
+
+{% block head %}
+	<link rel="stylesheet" href="{% static 'authors/css/styles.css' %}">
+{% endblock head %}
 
 {% block title %}Dashboard ({{user}}){% endblock title %}
 
@@ -11,7 +16,50 @@
 				<div class="text-center"> <span>Please to</span> {% include "authors/partials/logout.html" %}</div>
 			</div>
 		{% endif %}
+		
+		<div class="authors-dashboard-container">
+			<div class="authors-dashboard-container-title">
+				<h3>Your Recipes</h3>
+				<span>total {{total_recipes}}</span>
+			</div>
+			
+			<ul>
+				<li>
+					<div class="list-item-colmun">
+						<span>ID</span>
+					</div>
+					<div class="list-item-colmun">
+						<span>TITLE</span>
+					</div>
+					<div class="list-item-colmun">
+						<span>DATA</span>
+					</div>
+				</li>
+				{% for recipe in recipes  %}
+					<li >
+						
+						<div class="list-item-colmun">
+							<strong>#{{recipe.id}}</strong>
+						</div>
+						<div class="list-item-colmun">
+							<a href="">{{recipe.title}}</a> 
+						</div>
+						<div class="list-item-colmun">
+							<span class="recipe-author-item">
+								<i class="fas fa-calendar-alt"></i>
+								{{ recipe.created_at|date:"d/m/Y" }} ás {{ recipe.created_at|time:"H:i" }}
+							</span>
+						</div>
 
+						
+					</li>
+				{%empty%}
+					<li>
+						<p>You do not have recipes, please create one.</p>
+					</li>
+				{% endfor %}
+			</ul>
+		</div>
 	</div>
 {% endblock content %}
 		

@@ -15,7 +15,8 @@ class RecipeAdmin(admin.ModelAdmin):
     list_display = ['id', 'title', 'created_at', 'is_published', 'author']
     list_display_links = ['id', 'title', 'created_at',]
     search_fields = ['id', 'title', 'description', 'preparation_steps']
-    list_filter = ['category', 'author', 'preparation_steps_is_html']
+    list_filter = ['category', 'author',
+                   'preparation_steps_is_html', 'is_published',]
     list_per_page = 20
     list_editable = ['is_published',]
     ordering = ['-id',]

@@ -2,6 +2,7 @@ import uuid
 
 from django.contrib.auth.models import User
 from django.db import models
+from django.urls import reverse
 from django.utils.text import slugify
 
 # Create your models here.
@@ -55,3 +56,6 @@ class Recipe(models.Model):
         # Obtemos os primeiros 8 caracteres do UUID
         unique_id = str(uuid.uuid4())[:16]
         self.slug = f"{base_slug}-{unique_id}"
+
+    def get_absolute_url(self):
+        return reverse("recipes:details", kwargs={"id": self.id})

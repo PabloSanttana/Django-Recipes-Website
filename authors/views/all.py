@@ -170,7 +170,7 @@ def dashboard_recipe_edit(request, id):
 
     return render(request, 'authors/views/dashboard_recipe_form.html', {
         'form': form,
-        'form_id': 'register_edit',
+        'form_id': 'form_recipe_edit',
 
     })
 

@@ -1,4 +1,5 @@
 from django.db.models import Q
+from django.http import Http404
 
 from .recipe_list_view_base import RecipeListViewBase
 
@@ -15,6 +16,8 @@ class RecipeListCategory(RecipeListViewBase):
         category_id = self.kwargs.get('category_id')
         category_id
         queryset = queryset.filter(category__id=category_id)
+        if not queryset.exists():
+            raise Http404()
         return queryset
 
     def get_context_data(self, *args, **kwargs):
@@ -31,10 +34,14 @@ class RecipeListCategory(RecipeListViewBase):
 
 
 class RecipeListSearch(RecipeListViewBase):
-    template_name = 'recipes/views/home.html'
+    template_name = 'recipes/views/search.html'
 
     def get_queryset(self, *args, **kwargs):
         search_term = self.request.GET.get('q', '').strip()
+
+        if not search_term:
+            raise Http404()
+
         queryset = super().get_queryset(*args, **kwargs)
 
         queryset = queryset.filter(

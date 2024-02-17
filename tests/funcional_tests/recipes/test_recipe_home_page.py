@@ -10,14 +10,16 @@ from .test_base import RecipeBaseFunctionalTest
 
 @pytest.mark.functional_test
 class RecipeHomeFunctionTestCase(RecipeBaseFunctionalTest):
-    @patch('recipes.views.PER_PAGE', new=2)
+    # @patch('recipes.views.PER_PAGE', new=2)
+    @patch('recipes.views.recipe_list_view_base.PER_PAGE', new=2)
     def test_recipe_home_page_no_recipes_published(self):
         self.browser.get(self.live_server_url)
         body = self.browser.find_element(By.TAG_NAME, 'body')
         self.assertIn(
             'Atualmente, não temos nenhuma receita publicada.', body.text)
 
-    @patch('recipes.views.PER_PAGE', new=2)
+    # @patch('recipes.views.PER_PAGE', new=2) # view baseadas em funcao
+    @patch('recipes.views.recipe_list_view_base.PER_PAGE', new=2)
     def test_recipe_search_input_can_find_correct_recipes(self):
         # criar as receitas
         recipes = self.make_recipe_in_batch(5)
@@ -47,7 +49,7 @@ class RecipeHomeFunctionTestCase(RecipeBaseFunctionalTest):
 
         self.assertIn(title_needed, content_title.text)
 
-    @patch('recipes.views.PER_PAGE', new=2)
+    @patch('recipes.views.recipe_list_view_base.PER_PAGE', new=2)
     def test_recipe_page_pagination(self):
         # Criar cinco receitas
         self.make_recipe_in_batch(5)

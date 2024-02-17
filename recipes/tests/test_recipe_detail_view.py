@@ -10,13 +10,16 @@ from .test_recipe_base import RecipeTestBase
 class RecipeViewDetailTest(RecipeTestBase):
     def test_recipe_detail_view_is_correct(self):
         view = resolve(
-            reverse('recipes:details', kwargs={'id': 1})
+            reverse('recipes:details', kwargs={'pk': 1})
         )
-        self.assertIs(view.func, views.recipe)
+        # usando para view baseado em funcoes
+        # self.assertIs(view.func, views.recipe)
+
+        self.assertIs(view.func.view_class, views.RecipeDetailView)
 
     def test_recipe_detail_view_status_code_404_Ok(self):
         response = self.client.get(
-            reverse('recipes:details', kwargs={'id': 1000})
+            reverse('recipes:details', kwargs={'pk': 1000})
         )
         self.assertEqual(response.status_code, 404)
 
@@ -25,7 +28,7 @@ class RecipeViewDetailTest(RecipeTestBase):
         title = "this is a detail page - it load one recipe"
         create_recipe = self.make_recipe(title=title)
         response = self.client.get(
-            reverse('recipes:details', kwargs={'id': 1})
+            reverse('recipes:details', kwargs={'pk': 1})
         )
 
         recipe = response.context["recipe"]
@@ -46,6 +49,6 @@ class RecipeViewDetailTest(RecipeTestBase):
 
         self.make_recipe(is_published=False)
         response = self.client.get(
-            reverse('recipes:details', kwargs={'id': 1})
+            reverse('recipes:details', kwargs={'pk': 1})
         )
         self.assertEqual(response.status_code, 404)

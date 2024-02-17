@@ -12,7 +12,11 @@ from .test_recipe_base import RecipeTestBase
 class RecipeViewHomeTest(RecipeTestBase):
     def test_recipe_home_view_is_correct(self):
         view = resolve(reverse('recipes:home'))
-        self.assertIs(view.func, views.home)
+
+        # usando para view baseada em funcao
+        # self.assertIs(view.func, views.home)
+
+        self.assertIs(view.func.view_class, views.RecipeListHome)
 
     def test_recipe_home_view_status_code_200_Ok(self):
         response = self.client.get(reverse('recipes:home'))
@@ -69,7 +73,7 @@ class RecipeViewHomeTest(RecipeTestBase):
         text = "<h2 >Atualmente, não temos nenhuma receita publicada.</h2>"
         self.assertIn(text, content)
 
-    @patch('recipes.views.PER_PAGE', new=3)
+    @patch('recipes.views.recipe_list_view_base.PER_PAGE', new=3)
     def test_recipe_home_is_pagination(self):
         # testando paginacao da home
 
@@ -87,7 +91,8 @@ class RecipeViewHomeTest(RecipeTestBase):
         self.assertEqual(len(paginator.get_page(2)), 3)
         self.assertEqual(len(paginator.get_page(3)), 3)
 
-    @patch('recipes.views.PER_PAGE', new=3)
+    # @patch('recipes.views.PER_PAGE', new=3)
+    @patch('recipes.views.recipe_list_view_base.PER_PAGE', new=3)
     def test_recipe_home_is_pagination_page_query_invalid(self):
 
         for i in range(9):

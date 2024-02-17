@@ -1,3 +1,4 @@
+from django.http import Http404
 from django.views.generic.detail import DetailView
 
 from recipes.models import Recipe
@@ -11,6 +12,10 @@ class RecipeDetailView(DetailView):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(is_published=True)
+
+        if not queryset.exists():
+            raise Http404()
+
         return queryset
 
     def get_context_data(self, *args, **kwargs):

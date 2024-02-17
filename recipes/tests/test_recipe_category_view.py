@@ -12,12 +12,17 @@ class RecipeViewCategoryTest(RecipeTestBase):
         view = resolve(
             reverse('recipes:category', kwargs={'category_id': 1})
         )
-        self.assertIs(view.func, views.category)
+        # usando para view baseada em classe
+        self.assertIs(view.func.view_class, views.RecipeListCategory)
+
+        # usando para view baseada funcao
+        # self.assertIs(view.func, views.category)
 
     def test_recipe_category_view_status_code_404_Ok(self):
         response = self.client.get(
             reverse('recipes:category', kwargs={'category_id': 1000})
         )
+
         self.assertEqual(response.status_code, 404)
 
     def test_recipe_category_template_loads_the_correct_recipes(self):

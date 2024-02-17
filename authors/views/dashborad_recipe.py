@@ -16,7 +16,16 @@ from utils.pagination import make_pagination
                   name='dispatch')
 class DashboardRecipe(View):
 
-    def get_recipes(self, id):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+
+    def setup(self, *args, **kwargs):
+        return super().setup(*args, **kwargs)
+
+    def dispatch(self, *args, **kwargs):
+        return super().dispatch(*args, **kwargs)
+
+    def get_recipe(self, id=None):
         recipe = None
 
         if id:
@@ -34,21 +43,21 @@ class DashboardRecipe(View):
     def renderView(self, form):
         return render(self.request, 'authors/views/dashboard_recipe_form.html', {
             'form': form,
-            'form_id': 'form_recipe_edit',
+            'form_id': 'form_recipe',
 
         })
 
-    def get(self, request, id):
+    def get(self, request, id=None):
 
-        recipe = self.get_recipes(id)
+        recipe = self.get_recipe(id)
 
         form = RecipeForm(instance=recipe)
 
         return self.renderView(form)
 
-    def post(self, request, id):
+    def post(self, request, id=None):
 
-        recipe = self.get_recipes(id)
+        recipe = self.get_recipe(id)
 
         form = RecipeForm(data=request.POST,
                           files=request.FILES,
@@ -64,6 +73,19 @@ class DashboardRecipe(View):
             messages.success(request, 'Recipe edited successfully')
 
             return redirect(reverse('authors:dashboard_recipe_edit',
-                                    args=(id,)))
+                                    args=(recipe.id,)))
 
         return self.renderView(form)
+
+
+@method_decorator(login_required(login_url='authors:login',
+                                 redirect_field_name='next'),
+                  name='dispatch')
+class DashboardRecipeDelete(DashboardRecipe):
+    def post(self, *args, **kwargs):
+        id = self.request.POST.get('id')
+        recipe = self.get_recipe(id)
+        recipe.delete()
+        messages.success(self.request, 'Delete Recipe successfully')
+
+        return redirect('authors:dashboard')

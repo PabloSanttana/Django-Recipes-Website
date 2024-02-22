@@ -30,7 +30,7 @@ DEBUG = os.environ.get('DEBUG', '0') == '1'
 
 print(DEBUG)
 
-ALLOWED_HOSTS: list[str] = ['*']  # type: ignore inserir o dominio
+ALLOWED_HOSTS = ['*']  # type: ignore inserir o dominio
 
 
 # Application definition

@@ -1,11 +1,39 @@
+
 from django.db.models import Q
-from django.http import Http404
+from django.http import Http404, JsonResponse
+
+from utils.utils_api import recipe_dict
 
 from .recipe_list_view_base import RecipeListViewBase
 
 
 class RecipeListHome(RecipeListViewBase):
     template_name = 'recipes/views/home.html'
+
+
+class RecipeListHomeApi(RecipeListViewBase):
+    template_name = 'recipes/views/home.html'
+
+    def render_to_response(self, context, **response_kwargs):
+
+        context_data = self.get_context_data()
+        recipes = context_data.get('recipes')
+        recipe_list = recipes.object_list.values()
+        pagination_range = context_data.get('pagination_range')
+
+        recipe_dict_list = []
+
+        for recipe in recipes:
+            item = recipe_dict(recipe)
+
+            recipe_dict_list.append(item)
+
+        return JsonResponse({
+            # 'recipes': list(recipe_list),  # forma automatica do django
+            'recipes': recipe_dict_list,
+            'current_page': pagination_range['current_page'],
+            'total_pages': pagination_range['total_pages'],
+        }, safe=False)
 
 
 class RecipeListCategory(RecipeListViewBase):

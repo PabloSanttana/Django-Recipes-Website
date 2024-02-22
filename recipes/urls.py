@@ -11,4 +11,12 @@ urlpatterns = [
          views.RecipeListCategory.as_view(), name='category'),
     path('recipes/<int:pk>/',
          views.RecipeDetailView.as_view(), name='details'),
+
+
+    # api json
+    path('recipes/api/v1/', views.RecipeListHomeApi.as_view(),
+         name='home_v1_api'),
+    path('recipes/api/v1/<int:pk>/', views.RecipeDetailViewApi.as_view(),
+         name='details_v1_api'),
+
 ]

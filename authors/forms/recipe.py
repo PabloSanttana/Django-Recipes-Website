@@ -17,6 +17,9 @@ class RecipeForm(forms.ModelForm):
         add_attr(self.fields.get('preparation_steps'), 'class', 'span-2')
         add_attr(self.fields.get('title'), 'class', 'span-2')
         add_attr(self.fields.get('description'), 'class', 'span-2')
+        add_attr(self.fields.get('description'),
+                 'placeholder', 'Recipe description')
+        add_attr(self.fields.get('title'), 'placeholder', 'Recipe title')
 
     class Meta:
         model = Recipe
@@ -25,14 +28,16 @@ class RecipeForm(forms.ModelForm):
 
         widgets = {
             'cover': forms.FileInput(
-                attrs={'class': 'span-2'}
+                attrs={'class': 'span-2'},
+
             ),
             'servings_unit': forms.Select(
                 choices=(
                     ('Porçōes', 'Porçōes'),
                     ('Pedaços', 'Pedaços'),
                     ('Pessoas', 'Pessoas'),
-                )
+                ),
+
             ),
             'preparation_time_unit': forms.Select(
                 choices=(
@@ -40,6 +45,16 @@ class RecipeForm(forms.ModelForm):
                     ('Minutos', 'Minutos'),
                 )
             ),
+        }
+
+        help_texts = {
+            'title': ('The recipe title must have at least 5 characters.'),
+            'description': ('The recipe title must have at least 5 '
+                            'characters.'),
+            'preparation_steps': ('The field accepts both plain text and HTML '
+                                  'format for better organization.'),
+            'cover': ('Accepted files jpg, jpeg, png '
+                      'with a maximum size of 2bm.'),
         }
 
     def clean(self, *args, **kwargs):
@@ -62,11 +77,6 @@ class RecipeForm(forms.ModelForm):
             self.__my_errors['servings'].append(
                 'Servings must be a positive number.')
 
-        # Verifica se a imagem de capa está presente
-        if not cleaned_data.get('cover'):
-            self.__my_errors['cover'].append(
-                'Cover image is required')
-
         # Verifica se a categoria está presente
         if not cleaned_data.get('category'):
             self.__my_errors['category'].append(
@@ -87,3 +97,29 @@ class RecipeForm(forms.ModelForm):
                 'Ttile must have at least 5 characters.')
 
         return title
+
+    def clean_cover(self):
+
+        # Define the maximum file size in bytes
+        max_size_bytes = 2 * 1024 * 1024  # 2MB
+        allowed_extensions = ['jpg', 'jpeg', 'png']
+
+        cover = self.cleaned_data.get('cover', '')
+
+        # Verifica se a imagem de nao capa está presente
+        if not cover:
+            self.__my_errors['cover'].append(
+                'Cover image is required')
+
+        else:
+            file_extension = cover.name.split('.')[-1].lower()
+
+            if file_extension not in allowed_extensions:
+                self.__my_errors['cover'].append(
+                    'Only JPG, JPEG, and PNG files are allowed')
+
+            if cover.size > max_size_bytes:
+                self.__my_errors['cover'].append(
+                    'Cover image should not exceed 2MB')
+
+        return cover

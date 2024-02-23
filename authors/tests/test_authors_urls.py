@@ -26,3 +26,15 @@ class AuthorsUrlsTestCase(TestCase):
     def test_authors_dashboard_is_correct(self):
         url = reverse('authors:dashboard')
         self.assertEqual(url, '/authors/dashboard/')
+
+    def test_authors_dashboard_recipe_new_is_correct(self):
+        url = reverse('authors:dashboard_recipe_new')
+        self.assertEqual(url, '/authors/dashboard/recipe/new/')
+
+    def test_authors_dashboard_recipe_edit_is_correct(self):
+        url = reverse('authors:dashboard_recipe_edit', kwargs={"id": 1})
+        self.assertEqual(url, '/authors/dashboard/recipe/edit/1/')
+
+    def test_authors_dashboard_recipe_delete_is_correct(self):
+        url = reverse('authors:dashboard_recipe_delete')
+        self.assertEqual(url, '/authors/dashboard/recipe/delete/')

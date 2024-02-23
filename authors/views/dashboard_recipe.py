@@ -46,6 +46,9 @@ class DashboardRecipe(View):
 
                       })
 
+    # metodo get, mostra um formulario vazio para uma nova receita
+    # ou mostra um receita para edicao
+
     def get(self, request, id=None):
 
         recipe = self.get_recipe(id)

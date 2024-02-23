@@ -5,7 +5,7 @@ from django.urls import resolve, reverse
 from authors import views
 
 
-class AuthorsViewAuthTestCase(TestCase):
+class AuthorsViewAuthenticationTestCase(TestCase):
     def make_create_author(self):
         # cria um usuario
         self.user_password = 'Ab123456789'

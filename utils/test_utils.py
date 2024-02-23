@@ -6,9 +6,9 @@ from utils.utils_api import recipe_dict
 
 class ApiDictTestCase(TestCase, RecipeMixin):
 
-    def test_get_(self):
+    def teste_is_convert_recipe_dict(self):
         recipe = self.make_recipe()
-        dict_recipe = recipe_dict(recipe)
+        dict_recipe = recipe_dict(self, recipe)
 
         self.assertEqual(recipe.id, dict_recipe['id'])
         self.assertEqual(recipe.title, dict_recipe['title'])

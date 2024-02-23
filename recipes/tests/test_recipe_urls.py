@@ -20,3 +20,13 @@ class RecipeURLsTestCase(TestCase):
     def test_recipe_search_url_is_correct(self):
         url = reverse('recipes:search')
         self.assertEqual(url, "/recipes/search/")
+
+
+class RecipeURLsApiTestCase(TestCase):
+    def test_recipe_home_api_v1_is_correct(self):
+        url = reverse('recipes:home_v1_api')
+        self.assertEqual(url, "/recipes/api/v1/")
+
+    def test_recipe_detail_api_v1_is_correct(self):
+        url = reverse('recipes:details_v1_api', kwargs={'pk': 1})
+        self.assertEqual(url, "/recipes/api/v1/1/")

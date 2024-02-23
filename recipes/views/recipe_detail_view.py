@@ -3,6 +3,7 @@ from django.http import Http404, JsonResponse
 from django.views.generic.detail import DetailView
 
 from recipes.models import Recipe
+from utils.utils_api import recipe_dict
 
 
 class RecipeDetailView(DetailView):
@@ -36,27 +37,29 @@ class RecipeDetailViewApi(RecipeDetailView):
 
         context_data = self.get_context_data()
         recipe = context_data.get('recipe')
-        recipe_dict = model_to_dict(recipe)
+        # recipe_dict = model_to_dict(recipe)
 
-        if recipe_dict.get('cover'):
-            recipe_dict['cover'] = self.request.build_absolute_uri()[0:21] + \
-                recipe.cover.url
-        else:
-            recipe_dict['cover'] = ""
+        # if recipe_dict.get('cover'):
+        #     recipe_dict['cover'] = self.request.build_absolute_uri()[0:21] + \
+        #         recipe.cover.url
+        # else:
+        #     recipe_dict['cover'] = ""
 
-        if recipe.author.first_name is not None:
-            # Flake8: noqa
-            recipe_dict['author'] = f'{recipe.author.first_name} {recipe.author.last_name}'
-        else:
-            recipe_dict['author'] = recipe.author.username
+        # if recipe.author.first_name is not None:
+        # Flake8: noqa
+        #     recipe_dict['author'] = f'{recipe.author.first_name} {recipe.author.last_name}'
+        # else:
+        #     recipe_dict['author'] = recipe.author.username
 
-        recipe_dict['category'] = str(recipe.category)
+        # recipe_dict['category'] = str(recipe.category)
 
-        recipe_dict['created_at'] = str(recipe.created_at)
-        recipe_dict['updated_at'] = str(recipe.updated_at)
+        # recipe_dict['created_at'] = str(recipe.created_at)
+        # recipe_dict['updated_at'] = str(recipe.updated_at)
 
-        del recipe_dict['is_published']
+        # del recipe_dict['is_published']
+
+        recipe_to_dict = recipe_dict(self, recipe)
 
         return JsonResponse({
-            'recipe': recipe_dict,
+            'recipe': recipe_to_dict,
         }, safe=False)

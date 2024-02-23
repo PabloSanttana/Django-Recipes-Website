@@ -1,4 +1,4 @@
-def recipe_dict(recipe):
+def recipe_dict(self, recipe):
 
     return {
         'id': recipe.id,
@@ -22,6 +22,6 @@ def recipe_dict(recipe):
             'id': recipe.category.id
         },
         'cover': {
-            'url': recipe.cover.url if recipe.cover else "",
+            'url': self.request.build_absolute_uri()[0:21] + recipe.cover.url if recipe.cover else "",
         }
     }

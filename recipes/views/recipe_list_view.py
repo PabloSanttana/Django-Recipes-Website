@@ -18,13 +18,13 @@ class RecipeListHomeApi(RecipeListViewBase):
 
         context_data = self.get_context_data()
         recipes = context_data.get('recipes')
-        recipe_list = recipes.object_list.values()
+        # recipe_list = recipes.object_list.values()
         pagination_range = context_data.get('pagination_range')
 
         recipe_dict_list = []
 
         for recipe in recipes:
-            item = recipe_dict(recipe)
+            item = recipe_dict(self, recipe)
 
             recipe_dict_list.append(item)
 
@@ -51,12 +51,8 @@ class RecipeListCategory(RecipeListViewBase):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         recipes = context_data.get('recipes')
-        category_name = ''
 
-        if recipes:
-            category_name = recipes[0].category.name
-
-        context_data["title"] = f'{category_name}- Category'
+        context_data["title"] = f'{recipes[0].category.name}- Category'
 
         return context_data
 

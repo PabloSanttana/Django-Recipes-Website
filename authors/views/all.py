@@ -100,6 +100,7 @@ def logout_view(request):
     return redirect('authors:login')
 
 
+# A versao em classe dessa funcao esta em dashboard_recipe_list
 @login_required(login_url='authors:login', redirect_field_name='next')
 def dashboard(request):
     recipes = Recipe.objects.filter(

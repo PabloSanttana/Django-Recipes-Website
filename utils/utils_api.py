@@ -1,4 +1,5 @@
 def recipe_dict(recipe):
+
     return {
         'id': recipe.id,
         'title': recipe.title,
@@ -21,6 +22,6 @@ def recipe_dict(recipe):
             'id': recipe.category.id
         },
         'cover': {
-            'url': recipe.cover.url if recipe.cover.url else "",
+            'url': recipe.cover.url if recipe.cover else "",
         }
     }

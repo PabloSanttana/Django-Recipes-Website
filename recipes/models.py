@@ -58,4 +58,4 @@ class Recipe(models.Model):
         self.slug = f"{base_slug}-{unique_id}"
 
     def get_absolute_url(self):
-        return reverse("recipes:details", kwargs={"id": self.id})
+        return reverse("recipes:details", kwargs={"pk": self.id})

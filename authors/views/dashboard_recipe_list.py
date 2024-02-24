@@ -23,7 +23,7 @@ class DashboardRecipeListView(ListView):
         queryset = queryset.filter(
             is_published=False,
             author=self.request.user
-        )
+        ).values('id', 'title', 'created_at')
 
         return queryset
 

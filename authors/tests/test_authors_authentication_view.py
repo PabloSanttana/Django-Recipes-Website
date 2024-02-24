@@ -1,26 +1,12 @@
-from django.contrib.auth.models import User
 from django.test import TestCase
 from django.urls import resolve, reverse
 
 from authors import views
 
+from .test_authors_mixin import AuthorsMixin
 
-class AuthorsViewAuthenticationTestCase(TestCase):
-    def make_create_author(self):
-        # cria um usuario
-        self.user_password = 'Ab123456789'
-        user = User.objects.create_user(
-            username='RafaelaDarc',
-            last_name='Darc',
-            first_name='Rafaela',
-            email='RafaelaDarc@gmail.com',
-            password=self.user_password)
-        return user
 
-    def make_login_author(self):
-        user = self.make_create_author()
-        self.client.login(username=user.username, password=self.user_password)
-        return user
+class AuthorsViewAuthenticationTestCase(TestCase, AuthorsMixin):
 
     def test_authors_login_view_is_correct(self):
         url = reverse('authors:login')
@@ -108,12 +94,21 @@ class AuthorsViewAuthenticationTestCase(TestCase):
         self.assertIn(msg, response.content.decode('utf-8'))
 
     def test_authors_logout_view_sucess(self):
+        # Faz login como um autor e obtém o usuário logado
         user = self.make_login_author()
 
+        # Obtém a URL reversa para a visualização de logout
         logout_url = reverse('authors:logout')
 
+        # Realiza uma solicitação POST para a URL de logout com os dados
+        # de usuário
         response = self.client.post(
             logout_url, data={'username': user.username}, follow=True)
 
-        msg = 'Your are logged in with RafaelaDarc.'
+        # Define uma mensagem que é exibida quando um usuário está logado
+        msg = 'You are logged in with RafaelaDarc.'
+
+        # Verifica se a mensagem não está presente no conteúdo da resposta
+        # Isso garante que o logout tenha sido bem-sucedido e o
+        # usuário não esteja mais logado
         self.assertNotIn(msg, response.content.decode('utf-8'))

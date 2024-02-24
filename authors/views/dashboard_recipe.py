@@ -84,10 +84,13 @@ class DashboardRecipe(View):
     login_required(login_url='authors:login', redirect_field_name='next'),
     name='dispatch')
 class DashboardRecipeDelete(DashboardRecipe):
+    def get(self, *args, **kwargs):
+        raise Http404()
+
     def post(self, *args, **kwargs):
         id = self.request.POST.get('id')
         recipe = self.get_recipe(id)
         recipe.delete()
-        messages.success(self.request, 'Delete Recipe successfully')
+        messages.success(self.request, 'Recipe successfully deleted.')
 
         return redirect('authors:dashboard')

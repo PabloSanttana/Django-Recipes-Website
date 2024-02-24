@@ -39,7 +39,6 @@ class AuthorRegistrationFormUnitTest(TestCase):
         self.assertEqual(help_text_value, help_text)
 
     # Fazendo validacoes de Label
-
     @parameterized.expand([
         ('email', 'Email'),
         ('username', 'Username'),

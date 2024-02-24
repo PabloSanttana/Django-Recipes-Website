@@ -26,10 +26,12 @@ def add_placeholder(field, placeholder_value):
 
 
 def is_positive_number(value):
+    value
     try:
         number_string = float(value)
 
     except ValueError:
+        print("Invalid")
         return False
 
     return number_string > 0

@@ -49,12 +49,52 @@ class RecipeForm(forms.ModelForm):
 
         help_texts = {
             'title': ('The recipe title must have at least 5 characters.'),
-            'description': ('The recipe title must have at least 5 '
+            'description': ('The recipe description must have at least 5 '
                             'characters.'),
             'preparation_steps': ('The field accepts both plain text and HTML '
                                   'format for better organization.'),
             'cover': ('Accepted files jpg, jpeg, png '
-                      'with a maximum size of 2bm.'),
+                      'with a maximum size of 2MB.'),
+        }
+
+        error_messages = {
+            'title': {
+                'required': 'This field must not be empty.',
+
+            },
+            'description': {
+                'required': 'This field must not be empty.',
+
+            },
+            'preparation_time': {
+                'required': 'This field must not be empty.',
+
+            },
+            'preparation_time_unit': {
+                'required': 'This field must not be empty.',
+
+            },
+            'servings': {
+                'required': 'This field must not be empty.',
+
+            },
+            'servings_unit': {
+                'required': 'This field must not be empty.',
+
+            },
+            'preparation_steps': {
+                'required': 'This field must not be empty.',
+
+            },
+            'cover': {
+                'required': 'This field must not be empty.',
+
+
+            },
+            'category': {
+                'required': 'This field must not be empty.',
+
+            },
         }
 
     def clean(self, *args, **kwargs):
@@ -80,7 +120,7 @@ class RecipeForm(forms.ModelForm):
         # Verifica se a categoria está presente
         if not cleaned_data.get('category'):
             self.__my_errors['category'].append(
-                'Category is required')
+                'Category is required.')
 
         # Se houver erros, lança uma exceção de validação
         if self.__my_errors:
@@ -94,7 +134,7 @@ class RecipeForm(forms.ModelForm):
         # Verifica se o título tem pelo menos 5 caracteres
         if len(title) < 5:
             self.__my_errors['title'].append(
-                'Ttile must have at least 5 characters.')
+                'Title must have at least 5 characters.')
 
         return title
 
@@ -109,7 +149,7 @@ class RecipeForm(forms.ModelForm):
         # Verifica se a imagem de nao capa está presente
         if not cover:
             self.__my_errors['cover'].append(
-                'Cover image is required')
+                'Cover image is required.')
 
         else:
             file_extension = cover.name.split('.')[-1].lower()

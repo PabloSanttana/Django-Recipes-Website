@@ -72,7 +72,7 @@ class DashboardRecipe(View):
             recipe.is_published = False
             recipe.save()
 
-            messages.success(request, 'Recipe edited successfully')
+            messages.success(request, 'Recipe form successfully submitted.')
 
             return redirect(reverse('authors:dashboard_recipe_edit',
                                     args=(recipe.id,)))

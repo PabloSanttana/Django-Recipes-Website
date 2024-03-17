@@ -70,6 +70,9 @@ class DashboardRecipe(View):
             recipe.author = request.user
             recipe.preparation_steps_is_html = False
             recipe.is_published = False
+            tags = form.cleaned_data.get('tags')
+            recipe.tags.set(tags)
+
             recipe.save()
 
             messages.success(request, 'Recipe form successfully submitted.')

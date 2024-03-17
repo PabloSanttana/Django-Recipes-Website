@@ -88,7 +88,6 @@ class RegisterForm(forms.ModelForm):
         },
         min_length=4,
         max_length=150
-
     )
 
     class Meta:

@@ -3,7 +3,7 @@ from collections import defaultdict
 from django import forms
 from django.core.exceptions import ValidationError
 
-from recipes.models import Recipe
+from recipes.models import Recipe, Tag
 from utils.django_forms import add_attr, is_positive_number
 
 
@@ -21,6 +21,15 @@ class RecipeForm(forms.ModelForm):
                  'placeholder', 'Recipe description')
         add_attr(self.fields.get('title'), 'placeholder', 'Recipe title')
 
+    tags = forms.ModelMultipleChoiceField(
+        required=False,
+        label="Tags",
+        queryset=Tag.objects.all(),
+        widget=forms.SelectMultiple(attrs={
+            'class': 'form-control',
+        })
+    )
+
     class Meta:
         model = Recipe
         exclude = ['is_published', 'slug',
@@ -32,6 +41,7 @@ class RecipeForm(forms.ModelForm):
 
             ),
             'servings_unit': forms.Select(
+
                 choices=(
                     ('Porçōes', 'Porçōes'),
                     ('Pedaços', 'Pedaços'),

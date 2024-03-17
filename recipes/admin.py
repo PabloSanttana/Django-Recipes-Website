@@ -1,19 +1,20 @@
 from django.contrib import admin
-from django.contrib.contenttypes.admin import GenericStackedInline
-
-from tag.models import Tag
 
 from .models import Category, Recipe
 
+# # usando para reclações  genericas
+# from django.contrib.contenttypes.admin import GenericStackedInline
+
+# from tag.models import Tag
+
+
 # Register your models here.
 
-# colocando as tags relacoes genericas
-
-
-class TagInline(GenericStackedInline):
-    model = Tag
-    fields = ['name']
-    extra = 1
+# # colocando as tags relacoes genericas
+# class TagInline(GenericStackedInline):
+#     model = Tag
+#     fields = ['name']
+#     extra = 1
 
 
 class CategoryAdmin(admin.ModelAdmin):
@@ -32,9 +33,11 @@ class RecipeAdmin(admin.ModelAdmin):
     list_editable = ['is_published',]
     ordering = ['-id',]
 
-    inlines = [
-        TagInline,
-    ]
+    autocomplete_fields = ['tags']
+
+    # inlines = [
+    #     TagInline,
+    # ]
 
 
 admin.site.register(Category, CategoryAdmin)

@@ -13,7 +13,7 @@ class Tag(models.Model):
     slug = models.SlugField(unique=True)
 
     # aqui começam as campo para a relacao genericas
-    # Representa o model que quremos encaixar aqui
+    # Representa o model que queremos encaixar aqui
     content_type = models.ForeignKey(ContentType, on_delete=models.CASCADE)
 
     # representacao da linha do model

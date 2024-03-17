@@ -2,6 +2,7 @@
 from django.db.models import Q
 from django.http import Http404, JsonResponse
 
+from tag.models import Tag
 from utils.utils_api import recipe_dict
 
 from .recipe_list_view_base import RecipeListViewBase
@@ -42,7 +43,7 @@ class RecipeListCategory(RecipeListViewBase):
     def get_queryset(self, *args, **kwargs):
         queryset = super().get_queryset(*args, **kwargs)
         category_id = self.kwargs.get('category_id')
-        category_id
+
         queryset = queryset.filter(category__id=category_id)
         if not queryset.exists():
             raise Http404()
@@ -85,6 +86,38 @@ class RecipeListSearch(RecipeListViewBase):
             "page_title": f'{search_term}',
             "search_term": search_term,
             "additional_url_query": f'&q={search_term}'
+        })
+
+        return context_data
+
+
+class RecipeListTag(RecipeListViewBase):
+    template_name = 'recipes/views/tag.html'
+
+    def get_queryset(self, *args, **kwargs):
+        tag_slug = self.kwargs.get('slug', '')
+
+        if not tag_slug:
+            raise Http404()
+
+        queryset = super().get_queryset(*args, **kwargs)
+
+        queryset = queryset.filter(tags__slug=tag_slug)
+
+        return queryset
+
+    def get_context_data(self, *args, **kwargs):
+        context_data = super().get_context_data(*args, **kwargs)
+        tag_slug = self.kwargs.get('slug', '')
+
+        page_title = Tag.objects.filter(slug=tag_slug).first()
+        if not page_title:
+            page_title = 'No recipes found'
+
+        page_title = f'{page_title.name} - Tag'
+
+        context_data.update({
+            "page_title": f'{page_title}',
         })
 
         return context_data

@@ -29,7 +29,14 @@ class RecipeListViewBase(ListView):
             is_published=True
         )
         # melhorando a peformace para chave ForeignKey
+        # puxas os dados logo quando faz a busca pela recipe
+
         queryset = queryset.select_related('author', 'category')
+
+        # fazer um relação de muitos para muitos
+        # muitas recipes tem muitas tags
+        # muitas tags tem muitas recipes
+        queryset = queryset.prefetch_related('tags')
         return queryset
 
     def get_context_data(self,  *args, **kwargs):

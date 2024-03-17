@@ -15,6 +15,10 @@ class RecipeDetailView(DetailView):
         queryset = super().get_queryset(*args, **kwargs)
         queryset = queryset.filter(is_published=True)
 
+        # fazendo relacoes de muitos para muitos
+        queryset = queryset.select_related('author', 'category')
+        queryset = queryset.prefetch_related('tags')
+
         if not queryset.exists():
             raise Http404()
 

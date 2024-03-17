@@ -49,6 +49,7 @@
 
 }
 
+/* usando rem como pix basedo no rem  */
 html {
     font-size: 62.5%;
 }
@@ -125,11 +126,13 @@ body {
     padding-top: 0px;
 }
 
+
 .main-content-list {
     display: grid;
     grid-template-columns: repeat(auto-fit, minmax(36rem, 1fr));
     gap: var(--spacing-gutter-large);
 }
+
 
 @media only screen and (max-width: 500px) {
     .main-content-list {

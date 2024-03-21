@@ -1,3 +1,6 @@
+import os
+
+
 def recipe_dict(self, recipe):
 
     return {
@@ -25,3 +28,13 @@ def recipe_dict(self, recipe):
             'url': self.request.build_absolute_uri()[0:21] + recipe.cover.url if recipe.cover else "",
         }
     }
+
+
+def get_env_variable(val_name, defacult_value=""):
+    return os.environ.get(val_name, defacult_value)
+
+
+def transform_str_to_list(value):
+    if not value or not isinstance(value, str):
+        return []
+    return [string.strip() for string in value.split(',') if string]

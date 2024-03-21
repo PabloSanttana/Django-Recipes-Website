@@ -15,6 +15,8 @@ from pathlib import Path
 
 from django.contrib.messages import constants
 
+from utils.utils_api import get_env_variable, transform_str_to_list
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -23,14 +25,16 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-SECRET_KEY = os.environ.get('SECRET_KEY', 'INSECURE')
+SECRET_KEY = get_env_variable('SECRET_KEY', 'INSECURE')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = os.environ.get('DEBUG', '0') == '1'
+DEBUG = get_env_variable('DEBUG', '0') == '1'
 
-print(DEBUG)
 
-ALLOWED_HOSTS = ['*']  # type: ignore inserir o dominio
+# type: ignore inserir o dominio
+ALLOWED_HOSTS = transform_str_to_list(get_env_variable('ALLOWED_HOSTS'))
+# CSRF_TRUSTED_ORIGINS = transform_str_to_list(get_env_variable(
+#     'CSRF_TRUSTED_ORIGINS'))  # type: ignore inserir o dominio
 
 
 # Application definition

@@ -26,7 +26,7 @@ class RecipeForm(forms.ModelForm):
         label="Tags",
         queryset=Tag.objects.all(),
         widget=forms.SelectMultiple(attrs={
-            'class': 'form-control',
+            'class': 'form-control span-2',
         })
     )
 

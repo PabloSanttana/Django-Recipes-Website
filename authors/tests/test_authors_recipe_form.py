@@ -7,6 +7,7 @@ from parameterized import parameterized
 
 from authors.forms import RecipeForm
 from recipes.models import Category
+from tag.models import Tag
 
 from .test_authors_mixin import AuthorsMixin
 
@@ -66,6 +67,7 @@ class AuthorCreateRecipeFormIntegrationTestCase(DjangoTestCase, AuthorsMixin):
 
         self.make_login_author()
         category = Category.objects.create(name='Pasta')
+        tags = Tag.objects.create(name="bolo")
 
         image = self.generate_photo_file()
         self.form_data = {
@@ -79,7 +81,9 @@ class AuthorCreateRecipeFormIntegrationTestCase(DjangoTestCase, AuthorsMixin):
             'preparation_steps': ('1. Cook spaghetti according '
                                   'to package instructions.'),
             'cover': image,
-            'category': category.id
+            'category': category.id,
+            'tags': tags.id
+
         }
 
         return super().setUp()
@@ -163,6 +167,7 @@ class AuthorCreateRecipeFormIntegrationTestCase(DjangoTestCase, AuthorsMixin):
     def test_recipe_form_successfully_submitted(self):
 
         post_url = reverse('authors:dashboard_recipe_new')
+
         response = self.client.post(
             post_url, data=self.form_data,
             format="multipart/form-data", follow=True)

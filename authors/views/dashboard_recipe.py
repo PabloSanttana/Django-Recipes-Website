@@ -65,11 +65,18 @@ class DashboardRecipe(View):
                           files=request.FILES,
                           instance=recipe)
 
+        form
+
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.preparation_steps_is_html = False
             recipe.is_published = False
+            if not recipe.id:
+                # salvando a receita para gerar o id
+                recipe.save()
+
+            # para salvar as tags a receita tem que ter id
             tags = form.cleaned_data.get('tags')
             recipe.tags.set(tags)
 

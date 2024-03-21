@@ -1,8 +1,10 @@
 import uuid
+from collections import defaultdict
 
 from django.contrib.auth.models import User
 # from django.contrib.contenttypes.fields import GenericRelation
 from django.db import models
+from django.forms import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
 
@@ -49,6 +51,21 @@ class Recipe(models.Model):
 
     def __str__(self):
         return self.title
+
+    def clean(self, *args, **kwargs):
+
+        error_messages = defaultdict(list)
+
+        recipe_from_db = Recipe.objects.filter(
+            title__iexact=self.title).first()
+
+        if recipe_from_db:
+            if self.pk != recipe_from_db.pk:
+                error_messages['title'].append(
+                    "Found recipes with the same title")
+
+        if error_messages:
+            raise ValidationError(error_messages)
 
     def save(self, *args, **kwargs):
         # Se o objeto já existe e o título foi alterado

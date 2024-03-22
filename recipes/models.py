@@ -47,7 +47,7 @@ class Recipe(models.Model):
     # usando o metodo mais comun
     # relações de banco de dados MayToMay
 
-    tags = models.ManyToManyField(Tag)
+    tags = models.ManyToManyField(Tag, blank=True)
 
     def __str__(self):
         return self.title

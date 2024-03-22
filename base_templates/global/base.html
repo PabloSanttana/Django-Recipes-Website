@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+{% load static %}
 <html lang="pt-br">
 <head>
 	{% include "global/partials/head.html" %}
@@ -9,9 +10,11 @@
 
 </head>
 <body>
+	{% include "global/partials/sidebar.html" %}
     {% include "recipes/partials/header.html"%}
     {%include "recipes/partials/search.html"%}
 	{% include "global/partials/messages.html" %}
+	
 	
     <div class="main-content-container">
 		{% block content %}{% endblock content %}
@@ -22,7 +25,7 @@
     {% include "global/partials/footer.html" %}
 
 
-
+	<script type="text/javascript" src="{% static 'global/js/sidebar.js' %}"></script>
 	{% block scripts %}
 	
 	{% endblock scripts %}

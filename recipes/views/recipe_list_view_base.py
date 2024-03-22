@@ -31,7 +31,8 @@ class RecipeListViewBase(ListView):
         # melhorando a peformace para chave ForeignKey
         # puxas os dados logo quando faz a busca pela recipe
 
-        queryset = queryset.select_related('author', 'category')
+        queryset = queryset.select_related(
+            'author', 'category', 'author__profile')
 
         # fazer um relação de muitos para muitos
         # muitas recipes tem muitas tags

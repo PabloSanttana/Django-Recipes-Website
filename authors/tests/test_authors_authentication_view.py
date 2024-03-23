@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import resolve, reverse
 
 from authors import views
@@ -82,7 +82,9 @@ class AuthorsViewAuthenticationTestCase(TestCase, AuthorsMixin):
         # Check that the redirect goes to the login page
         self.assertEqual(response.url, login_url)
 
+    @override_settings(LANGUAGE_CODE='en-US', LANGUAGES=(('en', 'English'),))
     def test_authors_logout_view_redirects_if_username_does_not_match(self):
+
         self.make_login_author()
 
         logout_url = reverse('authors:logout')

@@ -33,8 +33,8 @@ class RecipeHomeFunctionTestCase(RecipeBaseFunctionalTest):
 
         # selecionar o campo
         search_input = self.browser.find_element(
-            By.XPATH,
-            '//input[@placeholder="Search..."]'
+            By.NAME,
+            'q'
         )
 
         # clica neste input e digitar o termo de busca

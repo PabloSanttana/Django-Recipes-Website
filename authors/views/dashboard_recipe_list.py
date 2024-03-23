@@ -1,4 +1,5 @@
 from django.contrib.auth.decorators import login_required
+from django.utils import translation
 from django.utils.decorators import method_decorator
 from django.views.generic import ListView
 
@@ -36,10 +37,11 @@ class DashboardRecipeListView(ListView):
             recipes,
             10
         )
-
+        html_language = translation.get_language()
         context_data.update({
             'recipes': page_obj,
             "pagination_range": pagination_range,
             'total_recipes': total_recipes,
+            'html_language': html_language
         })
         return context_data

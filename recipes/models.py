@@ -7,6 +7,7 @@ from django.db import models
 from django.forms import ValidationError
 from django.urls import reverse
 from django.utils.text import slugify
+from django.utils.translation import gettext_lazy as _
 
 from tag.models import Tag
 
@@ -21,25 +22,42 @@ class Category(models.Model):
 
 
 class Recipe(models.Model):
-    title = models.CharField(max_length=65)
-    description = models.CharField(max_length=165)
+    title = models.CharField(max_length=65, verbose_name=_('Title'))
+    description = models.CharField(
+        max_length=165, verbose_name=_('Description'))
     slug = models.SlugField(unique=True)
-    preparation_time = models.IntegerField()
-    preparation_time_unit = models.CharField(max_length=65)
-    servings = models.IntegerField()
-    servings_unit = models.CharField(max_length=65)
-    preparation_steps = models.TextField()
-    preparation_steps_is_html = models.BooleanField(default=False)
+    preparation_time = models.IntegerField(verbose_name=_('Preparation time'))
+    preparation_time_unit = models.CharField(
+        max_length=65, verbose_name=_('Preparation time unit'))
+    servings = models.IntegerField(verbose_name=_('Servings'))
+    servings_unit = models.CharField(
+        max_length=65, verbose_name=_('Servings unit'))
+    preparation_steps = models.TextField(verbose_name=_('Preparation steps'))
+    preparation_steps_is_html = models.BooleanField(
+        default=False, verbose_name=_('Preparation steps is html'))
     created_at = models.DateTimeField(auto_now_add=True)
     updated_at = models.DateTimeField(auto_now=True)
-    is_published = models.BooleanField(default=False)
+    is_published = models.BooleanField(
+        default=False, verbose_name=_('Is published'))
     cover = models.ImageField(
-        upload_to='recipes/covers/%Y/%m/%d/', blank=True, default='')
+        upload_to='recipes/covers/%Y/%m/%d/',
+        blank=True, default='',
+        verbose_name=_('Cover')
+    )
     category = models.ForeignKey(
-        Category, on_delete=models.SET_NULL,
-        null=True, blank=True, default=None)
+        Category,
+        on_delete=models.SET_NULL,
+        null=True,
+        blank=True,
+        default=None,
+        verbose_name=_('Category')
+    )
     author = models.ForeignKey(
-        User, on_delete=models.SET_NULL, null=True)
+        User,
+        on_delete=models.SET_NULL,
+        null=True,
+        verbose_name=_('Author')
+    )
 
     # usando para fazer relações generecia usando content_type
     # tags = GenericRelation(Tag, related_query_name='recipes')
@@ -47,7 +65,12 @@ class Recipe(models.Model):
     # usando o metodo mais comun
     # relações de banco de dados MayToMay
 
-    tags = models.ManyToManyField(Tag, blank=True, default="")
+    tags = models.ManyToManyField(
+        Tag,
+        blank=True,
+        default="",
+        verbose_name=_('Tags')
+    )
 
     def __str__(self):
         return self.title
@@ -87,3 +110,7 @@ class Recipe(models.Model):
 
     def get_absolute_url(self):
         return reverse("recipes:details", kwargs={"pk": self.id})
+
+    class Meta:
+        verbose_name = _("Recipe")
+        verbose_name_plural = _("Recipes")

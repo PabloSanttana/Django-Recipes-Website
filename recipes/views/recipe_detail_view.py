@@ -1,5 +1,6 @@
 from django.forms.models import model_to_dict
 from django.http import Http404, JsonResponse
+from django.utils import translation
 from django.views.generic.detail import DetailView
 
 from recipes.models import Recipe
@@ -27,9 +28,11 @@ class RecipeDetailView(DetailView):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         recipe = context_data.get('recipe')
+        html_language = translation.get_language()
         context_data.update({
             "is_detail_page": True,
-            "title": f'{recipe.title} - Detail'
+            "title": f'{recipe.title} - Detail',
+            'html_language': html_language
         })
 
         return context_data

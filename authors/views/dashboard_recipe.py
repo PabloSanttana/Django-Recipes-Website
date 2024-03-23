@@ -2,6 +2,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import Http404, redirect, render
 from django.urls import reverse
+from django.utils import translation
 from django.utils.decorators import method_decorator
 from django.views import View
 
@@ -39,11 +40,12 @@ class DashboardRecipe(View):
         return recipe
 
     def renderView(self, form):
+        html_language = translation.get_language()
         return render(self.request, 'authors/views/dashboard_recipe_form.html',
                       {
                           'form': form,
                           'form_id': 'form_recipe',
-
+                          'html_language': html_language
                       })
 
     # metodo get, mostra um formulario vazio para uma nova receita

@@ -1,25 +1,26 @@
 {% extends "global/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
 	<link rel="stylesheet" href="{% static 'authors/css/styles.css' %}">
 {% endblock head %}
 
-{% block title %}Dashboard Recipe{% endblock title %}
+{% block title %} {% translate "Dashboard Recipe" %} {% endblock title %}
 
 {% block content %}
 	<div class="main-content container">
 		<div class="authors-dashboard-container ">
-			<a  href="{% url 'authors:dashboard' %}"><i class="fas fa-arrow-left"></i> Dashboard Home	</a>
+			<a  href="{% url 'authors:dashboard' %}"><i class="fas fa-arrow-left"></i> {% translate "Dashboard Home" %}</a>
 			
 		</div>
 
 		
-		<h2 class="text-center mt-2">Dashboard Recipe</h2>
+		<h2 class="text-center mt-2"> {% translate "Dashboard Recipe" %}</h2>
 		{% if request.user.is_authenticated %}
 			<div style="margin-top:20px">
-				<p class="text-center">Your are logged in with {{request.user.username}}.</p>
-				<div class="text-center"> <span>Please to</span> {% include "authors/partials/logout.html" %}</div>
+				<p class="text-center"> {% translate "Your are logged in with" %} {{request.user.username}}.</p>
+				<div class="text-center"> <span> {% translate "Please to" %}</span> {% include "authors/partials/logout.html" %}</div>
 			</div>
 		{% endif %}
 		

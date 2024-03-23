@@ -1,31 +1,32 @@
 {% extends "global/base.html" %}
 {% load static %}
+{% load i18n %}
 
 {% block head %}
 	<link rel="stylesheet" href="{% static 'authors/css/styles.css' %}">
 {% endblock head %}
 
 
-{% block title %}Dashboard ({{user}}){% endblock title %}
+{% block title %} {% translate "Dashboard" %} ({{user}}){% endblock title %}
 
 {% block content %}
 	<div class="main-content container">
-		<h2 class="text-center">Dashboard ({{user}})</h2>
+		<h2 class="text-center">{% translate "Dashboard" %} ({{user}})</h2>
 		{% if request.user.is_authenticated %}
 			<div style="margin-top:20px">
-				<p class="text-center">Your are logged in with {{request.user.username}}.</p>
-				<div class="text-center"> <span>Please to</span> {% include "authors/partials/logout.html" %}</div>
+				<p class="text-center"> {% translate "Your are logged in with" %} {{request.user.username}}.</p>
+				<div class="text-center"> <span> {% translate "Please to" %} </span> {% include "authors/partials/logout.html" %}</div>
 			</div>
 		{% endif %}
 		
 		<div class="authors-dashboard-container">
 			<div class="container-info">
 				<div class="container-title">
-					<h3>Your Recipes</h3>
+					<h3> {% translate "Your Recipes" %}</h3>
 					<span>total {{total_recipes}}</span>
 				</div>
 				<div>
-					<a href="{%url 'authors:dashboard_recipe_new'%}">New recipe</a>
+					<a href="{%url 'authors:dashboard_recipe_new'%}"> {% translate "New recipe" %}</a>
 				</div>
 				
 			</div>
@@ -36,14 +37,14 @@
 						<span>ID</span>
 					</div>
 					<div class="list-item-colmun">
-						<span>TITLE</span>
+						<span> {% translate "TITLE" %}</span>
 					</div>
 					<div class="list-item-colmun">
 						<span>DATA</span>
 					</div>
 
 					<div class="list-item-colmun">
-						<span>Actions</span>
+						<span>{% translate "Actions" %}</span>
 					</div>
 				</li>
 				{% for recipe in recipes  %}
@@ -71,7 +72,7 @@
 					</li>
 				{%empty%}
 					<li>
-						<p>You do not have recipes, please create one.</p>
+						<p> {% translate "You do not have recipes, please create one." %}</p>
 					</li>
 				{% endfor %}
 			</ul>

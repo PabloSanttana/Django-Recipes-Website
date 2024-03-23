@@ -7,13 +7,7 @@
 		{% for recipe in  recipes %}
 			{% include "recipes/partials/recipe.html" %}
 		{% empty %}
-		<div class="container-not-found">
-			<h2 >Atualmente, não temos nenhuma receita publicada.</h2>
-			<p>Seja um dos primeiros a compartilhar suas criações 
-				culinárias! Cadastre-se e crie uma receita.
-			</p>
-		</div>
-		
+			{% include "recipes/partials/not_found.html" %}	
 		{% endfor %}
 	</div>
 {% endblock content %}

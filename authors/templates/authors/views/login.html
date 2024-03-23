@@ -1,10 +1,11 @@
 {% extends "global/base.html" %}
+{% load i18n %}
 
-{% block title %}Login{% endblock title %}
+{% block title %} {% translate "Login" %} {% endblock title %}
 
 {% block content %}
 	<div class="main-content container">
-		<h2 class="text-center">Login</h2>
+		<h2 class="text-center">{% translate "Login" %}</h2>
 		{% include "global/partials/form.html" %}
 
 	</div>

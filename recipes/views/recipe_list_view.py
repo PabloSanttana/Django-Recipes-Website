@@ -1,6 +1,7 @@
 
 from django.db.models import Q
 from django.http import Http404, JsonResponse
+from django.utils.translation import gettext as _
 
 from tag.models import Tag
 from utils.utils_api import recipe_dict
@@ -52,8 +53,9 @@ class RecipeListCategory(RecipeListViewBase):
     def get_context_data(self, *args, **kwargs):
         context_data = super().get_context_data(*args, **kwargs)
         recipes = context_data.get('recipes')
+        category_translation = _('Category')
 
-        context_data["title"] = f'{recipes[0].category.name}- Category'
+        context_data["title"] = f'{recipes[0].category.name} - {category_translation}'  # noqa
 
         return context_data
 

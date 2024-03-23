@@ -1,4 +1,4 @@
-from django.test import TestCase
+from django.test import TestCase, override_settings
 from django.urls import resolve, reverse
 
 from authors import views
@@ -31,6 +31,7 @@ class AuthorsViewDashboardTestCase(TestCase, AuthorsMixin):
         response = self.client.get(url)
         self.assertTemplateUsed(response, 'authors/views/dashboard.html')
 
+    @override_settings(LANGUAGE_CODE='en-US', LANGUAGES=(('en', 'English'),))
     def test_dashboard_title_is_correct(self):
         user = self.make_login_author()
         url = reverse('authors:dashboard')

@@ -1,10 +1,10 @@
 {% extends "global/base.html" %}
-
-{% block title %}Register User{% endblock title %}
+{% load i18n %}
+{% block title %} {% translate "Register User" %}{% endblock title %}
 
 {% block content %}
 	<div class="main-content container">
-		<h2 class="text-center">Register user</h2>
+		<h2 class="text-center"> {% translate "Register user" %} </h2>
 
 		{% include "global/partials/form.html" %}
 

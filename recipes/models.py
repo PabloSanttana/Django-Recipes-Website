@@ -111,6 +111,8 @@ class Recipe(models.Model):
     def get_absolute_url(self):
         return reverse("recipes:details", kwargs={"pk": self.id})
 
+    # Trazudir model na area adm
+
     class Meta:
         verbose_name = _("Recipe")
         verbose_name_plural = _("Recipes")

@@ -60,22 +60,22 @@ class DashboardRecipe(View):
         return self.renderView(form)
 
     def post(self, request, id=None):
-
         recipe = self.get_recipe(id)
 
         form = RecipeForm(data=request.POST,
                           files=request.FILES,
                           instance=recipe)
 
-        form
-
         if form.is_valid():
             recipe = form.save(commit=False)
             recipe.author = request.user
             recipe.preparation_steps_is_html = False
             recipe.is_published = False
+
             if not recipe.id:
+                # update recipe
                 # salvando a receita para gerar o id
+
                 recipe.save()
 
             # para salvar as tags a receita tem que ter id

@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2024-03-23 14:56-0300\n"
+"POT-Creation-Date: 2024-03-25 19:50-0300\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -24,6 +24,7 @@ msgstr "Sair"
 
 #: authors/templates/authors/views/dashboard.html:10
 #: authors/templates/authors/views/dashboard.html:14
+#: base_templates/global/partials/sidebar.html:16
 msgid "Dashboard"
 msgstr "Painel"
 
@@ -42,6 +43,7 @@ msgid "Your Recipes"
 msgstr "Receitas"
 
 #: authors/templates/authors/views/dashboard.html:29
+#: base_templates/global/partials/sidebar.html:22
 msgid "New recipe"
 msgstr "Nova Receita"
 
@@ -83,6 +85,10 @@ msgstr "Criar um Usuário"
 msgid "Register user"
 msgstr "Criar um Usuário"
 
+#: base_templates/global/partials/sidebar.html:9
+msgid "Home"
+msgstr "Início"
+
 #: recipes/models.py:25
 msgid "Title"
 msgstr "Título"
@@ -99,7 +105,7 @@ msgstr "Tempo de preparação"
 msgid "Preparation time unit"
 msgstr "Unidade de tempo de preparo"
 
-#: recipes/models.py:32
+#: recipes/models.py:32 
 #: recipes/templates/recipes/partials/recipe.html:70
 msgid "Servings"
 msgstr "Porções"
@@ -124,8 +130,7 @@ msgstr "Está publicado"
 msgid "Cover"
 msgstr "Imagem"
 
-#: recipes/models.py:53
-#: recipes/views/recipe_list_view.py:56
+#: recipes/models.py:53 recipes/views/recipe_list_view.py:56
 msgid "Category"
 msgstr "Categoria"
 
@@ -137,12 +142,11 @@ msgstr "Autor"
 msgid "Tags"
 msgstr "Tags"
 
-#: recipes/models.py:115
+#: recipes/models.py:117
 msgid "Recipe"
 msgstr "Receita"
 
-#: recipes/models.py:116
-#: recipes/templates/recipes/partials/header.html:6
+#: recipes/models.py:118 recipes/templates/recipes/partials/header.html:6
 msgid "Recipes"
 msgstr "Receitas"
 

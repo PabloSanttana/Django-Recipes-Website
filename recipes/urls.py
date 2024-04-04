@@ -49,12 +49,12 @@ urlpatterns = [
 
     path(
         'recipes/api/v2/',
-        views.recipe_list_api_v2,
+        views.RecipeAPIViewListV2.as_view(),
         name='recipes_v2_api'
     ),
     path(
         'recipes/api/v2/<int:pk>/',
-        views.recipe_detail_api_v2,
+        views.RecipeAPIViewDetailV2.as_view(),
         name='recipes_detail_v2_api'
     ),
     path(

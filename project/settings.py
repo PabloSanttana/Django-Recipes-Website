@@ -40,6 +40,7 @@ ALLOWED_HOSTS = transform_str_to_list(get_env_variable('ALLOWED_HOSTS'))
 # Application definition
 
 INSTALLED_APPS = [
+    # Django
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -47,7 +48,9 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'debug_toolbar',
-
+    # Django rest framework
+    'rest_framework',
+    # Nossa APPS
     'recipes',
     'authors',
     'tag'

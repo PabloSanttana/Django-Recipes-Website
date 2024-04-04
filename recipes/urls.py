@@ -33,7 +33,7 @@ urlpatterns = [
     ),
 
 
-    # Rotas de Api começam aqui
+    # Rotas de Api começam aqui sem usar django rest framework
     path(
         'recipes/api/v1/',
         views.RecipeListHomeApi.as_view(),
@@ -43,6 +43,19 @@ urlpatterns = [
         'recipes/api/v1/<int:pk>/',
         views.RecipeDetailViewApi.as_view(),
         name='details_v1_api'
+    ),
+
+    # Rotas de Api v2 usando django rest framework
+
+    path(
+        'recipes/api/v2/',
+        views.recipe_list_api_v2,
+        name='recipes_v2_api'
+    ),
+    path(
+        'recipes/api/v2/<int:pk>/',
+        views.recipe_detail_api_v2,
+        name='recipes_detail_v2_api'
     ),
 
 ]

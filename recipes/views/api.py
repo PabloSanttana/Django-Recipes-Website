@@ -1,5 +1,6 @@
 
 
+from django.db.models import Q
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
 from rest_framework.pagination import PageNumberPagination
@@ -23,6 +24,25 @@ class RecipeAPIv2CRUDViewSet(ModelViewSet):
     queryset = Recipe.objects.get_published()
     serializer_class = RecipeSerializer
     pagination_class = RecipeAPIv2Pagination
+
+    def get_queryset(self):
+        qs = super().get_queryset()
+
+        category_id = self.request.query_params.get('category_id', '')
+        search_term = self.request.query_params.get('q', '').strip()
+
+        if category_id != '' and category_id.isnumeric():
+            qs = qs.filter(category_id=category_id)
+
+        if search_term != '':
+            qs = qs.filter(
+                Q(
+                    Q(title__icontains=search_term) |
+                    Q(description__icontains=search_term)
+                ),
+            )
+
+        return qs
 
     # sobreescrevendo essa função como exemplo
 

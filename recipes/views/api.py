@@ -1,65 +1,47 @@
 
 
 from django.shortcuts import get_object_or_404
-from rest_framework import status
 from rest_framework.decorators import api_view
+from rest_framework.generics import (ListCreateAPIView,
+                                     RetrieveUpdateDestroyAPIView)
+from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
-from rest_framework.views import APIView
 
 from recipes.models import Recipe
 from recipes.serializers import RecipeSerializer, TagSerializer
 from tag.models import Tag
 
+RECIPE_PAGE_SIZE = 10
 
-class RecipeAPIViewListV2(APIView):
+
+class RecipeAPIv2Pagination(PageNumberPagination):
+    page_size = RECIPE_PAGE_SIZE
+    page_size_query_param = 'page_size'
+
+
+class RecipeAPIViewListV2(ListCreateAPIView):
+    queryset = Recipe.objects.get_published()
+    serializer_class = RecipeSerializer
+    pagination_class = RecipeAPIv2Pagination
+
+
+class RecipeAPIViewDetailV2(RetrieveUpdateDestroyAPIView):
+    queryset = Recipe.objects.get_published()
+    serializer_class = RecipeSerializer
+    pagination_class = RecipeAPIv2Pagination
+
+    # podemos sobreescrevar qualquer
+
     def get(self, request, *args, **kwargs):
-        recipes = Recipe.objects.get_published()[:10]
-        #  many=True falando que são muitos
-        serializer = RecipeSerializer(
-            instance=recipes,
-            many=True,
-            context={'request': request}
-        )
-        return Response(serializer.data)
+        return self.retrieve(request, *args, **kwargs)
 
-    def post(self, request, *args, **kwargs):
+    # sobreescrevendo essa função como exemplo
+    def put(self, request, *args, **kwargs):
+        return self.update(request, *args, **kwargs)
 
-        serializer = RecipeSerializer(
-            data=request.data,
-            context={'request': request}
-        )
-
-        serializer.is_valid(raise_exception=True)
-        serializer.save(
-            author_id=1,
-            category_id=1,
-            tags=[9, 12]
-        )
-        return Response(
-            serializer.data,
-            status=status.HTTP_201_CREATED
-        )
-
-
-class RecipeAPIViewDetailV2(APIView):
-    def get_recipe(self, pk):
-        recipe = get_object_or_404(
-            Recipe.objects.get_published(),
-            pk=pk,
-        )
-        return recipe
-
-    def get(self, request, pk):
-        recipe = self.get_recipe(pk)
-        serializer = RecipeSerializer(
-            instance=recipe,
-            many=False,
-            context={'request': request}
-        )
-        return Response(serializer.data)
-
-    def patch(self, request, pk):
-        recipe = self.get_recipe(pk)
+    def patch(self, request, *args, **kwargs):
+        pk = kwargs.get('pk')
+        recipe = self.get_queryset().filter(pk=pk).first()
         serializer = RecipeSerializer(
             instance=recipe,
             data=request.data,
@@ -72,10 +54,8 @@ class RecipeAPIViewDetailV2(APIView):
 
         return Response(serializer.data)
 
-    def delete(self, request, pk):
-        recipe = self.get_recipe(pk)
-        recipe.delete()
-        return Response(status=status.HTTP_204_NO_CONTENT)
+    def delete(self, request, *args, **kwargs):
+        return self.destroy(request, *args, **kwargs)
 
 
 @api_view()

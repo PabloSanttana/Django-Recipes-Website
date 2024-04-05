@@ -2,10 +2,9 @@
 
 from django.shortcuts import get_object_or_404
 from rest_framework.decorators import api_view
-from rest_framework.generics import (ListCreateAPIView,
-                                     RetrieveUpdateDestroyAPIView)
 from rest_framework.pagination import PageNumberPagination
 from rest_framework.response import Response
+from rest_framework.viewsets import ModelViewSet
 
 from recipes.models import Recipe
 from recipes.serializers import RecipeSerializer, TagSerializer
@@ -19,27 +18,15 @@ class RecipeAPIv2Pagination(PageNumberPagination):
     page_size_query_param = 'page_size'
 
 
-class RecipeAPIViewListV2(ListCreateAPIView):
+# faz o crud completo
+class RecipeAPIv2CRUDViewSet(ModelViewSet):
     queryset = Recipe.objects.get_published()
     serializer_class = RecipeSerializer
     pagination_class = RecipeAPIv2Pagination
-
-
-class RecipeAPIViewDetailV2(RetrieveUpdateDestroyAPIView):
-    queryset = Recipe.objects.get_published()
-    serializer_class = RecipeSerializer
-    pagination_class = RecipeAPIv2Pagination
-
-    # podemos sobreescrevar qualquer
-
-    def get(self, request, *args, **kwargs):
-        return self.retrieve(request, *args, **kwargs)
 
     # sobreescrevendo essa função como exemplo
-    def put(self, request, *args, **kwargs):
-        return self.update(request, *args, **kwargs)
 
-    def patch(self, request, *args, **kwargs):
+    def partial_update(self, request, *args, **kwargs):
         pk = kwargs.get('pk')
         recipe = self.get_queryset().filter(pk=pk).first()
         serializer = RecipeSerializer(
@@ -53,9 +40,6 @@ class RecipeAPIViewDetailV2(RetrieveUpdateDestroyAPIView):
         serializer.save()
 
         return Response(serializer.data)
-
-    def delete(self, request, *args, **kwargs):
-        return self.destroy(request, *args, **kwargs)
 
 
 @api_view()

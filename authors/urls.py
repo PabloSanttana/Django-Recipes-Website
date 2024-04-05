@@ -1,8 +1,19 @@
-from django.urls import path
+from django.urls import include, path
+from rest_framework.routers import SimpleRouter
 
 from authors import views
 
 app_name = "authors"
+
+authors_api_v2_router = SimpleRouter()
+
+authors_api_v2_router.register(
+    'api/v2',
+    views.AuthorAPIV2CRUDViewSet,
+    basename='authors-api',
+)
+
+print("authors_api_v2_router", authors_api_v2_router.urls)
 
 urlpatterns = [
     path('register/', views.register_view, name='register'),
@@ -26,4 +37,9 @@ urlpatterns = [
 
     path('dashboard/recipe/edit/<int:id>/', views.DashboardRecipe.as_view(),
          name='dashboard_recipe_edit'),
+
+
+    # api rest_frameWork
+    path('', include(authors_api_v2_router.urls)),
+
 ]

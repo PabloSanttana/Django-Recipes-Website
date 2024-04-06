@@ -1,6 +1,8 @@
 
 
 from django.contrib.auth import get_user_model
+from django.shortcuts import get_object_or_404
+from rest_framework.decorators import action
 from rest_framework.response import Response
 # from rest_framework.decorators import api_view, permission_classes
 # from rest_framework.permissions import IsAuthenticated
@@ -22,14 +24,39 @@ class AuthorAPIV2CRUDViewSet(ModelViewSet):
 
         return qs
 
+    def get_object(self):
+        pk = self.kwargs.get('pk', '')
+
+        obj = get_object_or_404(
+            get_user_model(),
+            pk=pk,
+        )
+        # Verificar nossa funcao de permissao 'permission.py'
+        self.check_object_permissions(self.request, obj)
+
+        return obj
+
     def list(self, request, *args, **kwargs):
         return super().list(request, *args, **kwargs)
+
+    # rota /authors/api/v2/me/
+    # metodo custumizado
+    @action(
+        methods=['get'],
+        detail=False
+    )
+    def me(self, request, *args, **kwargs):
+        obj = self.get_queryset().first()
+        serializer = self.get_serializer(
+            instance=obj
+        )
+        return Response(serializer.data)
 
     def retrieve(self, request, *args, **kwargs):
         return super().retrieve(request, *args, **kwargs)
 
     def partial_update(self, request, *args, **kwargs):
-        user = self.get_queryset().first()
+        user = self.get_object()
         serializer = AuthorSerializer(
             instance=user,
             data=request.data,

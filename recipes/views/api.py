@@ -95,9 +95,11 @@ class RecipeAPIv2CRUDViewSet(ModelViewSet):
     def create(self, request, *args, **kwargs):
         serializer = self.get_serializer(data=request.data)
         serializer.is_valid(raise_exception=True)
+        category_id = request.data.get('category')
 
         serializer.save(
-            author=request.user
+            author=request.user,
+            category_id=category_id
         )
 
         headers = self.get_success_headers(serializer.data)

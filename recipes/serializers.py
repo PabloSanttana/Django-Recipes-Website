@@ -49,7 +49,6 @@ class RecipeSerializer(serializers.ModelSerializer):
     category = serializers.StringRelatedField(
         read_only=True,
     )
-    # cover = serializers.ImageField()
 
     # isso cria uma array
     tags = serializers.PrimaryKeyRelatedField(
@@ -129,31 +128,31 @@ class RecipeSerializer(serializers.ModelSerializer):
 
         return title
 
-    # def validate_cover(self, value):
+    def validate_cover(self, value):
 
-    #     # Define the maximum file size in bytes
-    #     max_size_bytes = 2 * 1024 * 1024  # 2MB
-    #     allowed_extensions = ['jpg', 'jpeg', 'png']
+        # Define the maximum file size in bytes
+        max_size_bytes = 2 * 1024 * 1024  # 2MB
+        allowed_extensions = ['jpg', 'jpeg', 'png']
 
-    #     cover = value
+        cover = value
 
-    #     # Verifica se a imagem de nao capa está presente
-    #     if not cover:
-    #         self.__my_errors['cover'].append(
-    #             'Cover image is required.')
+        # Verifica se a imagem de nao capa está presente
+        if not cover:
+            self.__my_errors['cover'].append(
+                'Cover image is required.')
 
-    #     else:
-    #         file_extension = cover.name.split('.')[-1].lower()
+        else:
+            file_extension = cover.name.split('.')[-1].lower()
 
-    #         if file_extension not in allowed_extensions:
-    #             self.__my_errors['cover'].append(
-    #                 'Only JPG, JPEG, and PNG files are allowed')
+            if file_extension not in allowed_extensions:
+                self.__my_errors['cover'].append(
+                    'Only JPG, JPEG, and PNG files are allowed')
 
-    #         if cover.size > max_size_bytes:
-    #             self.__my_errors['cover'].append(
-    #                 'Cover image should not exceed 2MB')
+            if cover.size > max_size_bytes:
+                self.__my_errors['cover'].append(
+                    'Cover image should not exceed 2MB')
 
-    #     return cover
+        return cover
 
     def save(self, **kwargs):
         return super().save(**kwargs)
